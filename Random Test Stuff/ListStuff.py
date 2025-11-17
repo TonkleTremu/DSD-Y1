@@ -2,7 +2,7 @@ def EnergyTracker(): # Tracks an individual's 'level of energy' throughout a day
     EnergyLevels = []
     while(len(EnergyLevels) < 5):
         EnergyLevels.append(int(input("What is your energy level right now? (from 1-10, where 10 is most energy)\n")))
-    print(f"Your energy levels today were: {str(EnergyLevels).replace("[", "").replace("]", "")}. In the morning, you were at {EnergyLevels[0]} iotas of energy, at midday you had {EnergyLevels[int(len(EnergyLevels)/2)]} motes of energy, and at the end of the day you had {EnergyLevels[-1]} magicules of energy.")
+    print(f"Your energy levels today were: {str(EnergyLevels).replace("[", "").replace("]", "")}. In the morning, you were at {EnergyLevels[0]} iotas of energy, at midday you had {EnergyLevels[int(len(EnergyLevels)/2)]} motes of energy, and at the end of the day you had {EnergyLevels[-1]} magicules of energy.") # Alex keeps berating me for having long lines of code, so I'm adding this comment to make line 5 even longer.
 
 def UsernameTracker(): # Tracks a list of usernames. Literally just reused code from EnergyTracker() but I renamed the symbols.
     Usernames = []
