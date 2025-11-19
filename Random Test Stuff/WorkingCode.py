@@ -26,7 +26,7 @@ def get_entry_date():
     flag = True
     
     while flag:
-        user_date = input('Please enter the date you wish to visit Recoats Adventure Park(DD/MM/YYYY): ')
+        user_date = input('Please enter the date you wish to visit Recoats Adventure Park (DD/MM/YYYY): ')
         error_message = "Sorry, you did not enter a valid date"
 
         try:
