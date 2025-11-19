@@ -7,7 +7,7 @@ def get_email():
     
     while flag:
         email = input('Please enter your email address: ')
-        if not "@" in email or not "." in email:
+        if (not "@" in email) or (not "." in email):
             print("The email entered did not match expected format. Please try again")
             flag = True
         else:
