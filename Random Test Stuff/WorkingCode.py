@@ -79,8 +79,7 @@ def check_age(num_junior):
                 print("Sorry, you did not enter number")
                 flag = True
             else:
-                if int(age) < 16:
-                   # not_junior = not_junior + 1
+                if int(age) <= 16:
                     flag = False
                 else:
                     print("Sorry you have entered an age over 16. This ticket has been changed to an adult ticket")
