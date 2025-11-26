@@ -58,7 +58,7 @@ def ViewLoans(): # Displays all loans and their details.
             print(f"{y}: {x[y]}")
         print("\n-------\n")
     
-def EditLoan():
+def EditLoan(): # Edit a specific loan, given the student or device ID.
     student_id = input("What is the student's ID, or the device's ID that you would like to change a detail about?\n").capitalize()
     for x in StudentRecords:
         if(student_id in x.values()):
@@ -67,15 +67,20 @@ def EditLoan():
             Change = input("\nWhat needs changing?\n")
             ChangeTo = input("What should it be changed to?\n")
             try:
-                ChangeTo = int(ChangeTo)
-                if(ChangeTo == "y"):
+                if(ChangeTo.lower() == "y"):
                     ChangeTo = True
-                elif(ChangeTo == "n"):
+                elif(ChangeTo.lower() == "n"):
                     ChangeTo = False
             except:
                 pass
 
-            StudentRecords[x].update({Change, ChangeTo})
+            StudentRecords[StudentRecords.index(x)].update({Change: ChangeTo})
+        
+def DeleteLoan(): # Deletes a loan, given the corresponding student or device ID.
+    student_id = input("What is the student's ID, or the device's ID that you would like to delete?\n").capitalize()
+    for x in StudentRecords:
+        if(student_id in x.values()):
+            StudentRecords.pop(StudentRecords.index(x))
 
 def NewLoan(): # Creates a new loan. There's probably a more efficient way to write all this code. Actually, there is, but I don't want to.
     loan_id = input("What is the loan's ID?\n")
@@ -88,7 +93,7 @@ def NewLoan(): # Creates a new loan. There's probably a more efficient way to wr
         device_type = input("What is the device they loaned?\n").capitalize()
     device_id = input("What is the device's ID?\n")
     while(ValidateInt(device_id, "device_id")):
-        loan_id = input("What is the device's ID?\n")
+        device_id = input("What is the device's ID?\n")
     date_out = input("What date was it taken?\n")
     while(ValidateInt(date_out, "date")):
         date_out = input("What date was it taken?\n")
@@ -106,7 +111,7 @@ def NewLoan(): # Creates a new loan. There's probably a more efficient way to wr
     StudentRecords.append({"loan_id": loan_id, "student_name": student_name, "student_id": student_id, "device_type": device_type, "device_id": device_id, "date_out": date_out, "due_back": due_back, "returned": returned})
 
 def MainMenu(): # Contains a menu for all functions.
-    Choix = input("What do you want to do?\n1. Add new loan.\n2. View all loans.\n3. View specific loans.\n4. Edit loan.\n")
+    Choix = input("What do you want to do?\n1. Add new loan.\n2. View all loans.\n3. View specific loans.\n4. Edit loan.\n5. Delete loan.\n")
     if(Choix == "1"):
         NewLoan()
     elif(Choix == "2"):
@@ -115,6 +120,8 @@ def MainMenu(): # Contains a menu for all functions.
         ViewLoan()
     elif(Choix == "4"):
         EditLoan()
+    elif(Choix == "5"):
+        DeleteLoan()
     else:
         print("Only enter a number from the valid range.")
     MainMenu()

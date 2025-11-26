@@ -8,7 +8,12 @@ def Roshambo():
         print(f"You win! They chose {TheirChoice} - {YourChoice} beats {TheirChoice}.")
     elif(YourChoice == TheirChoice):
         print("Draw!")
-    else:
+    elif(YourChoice in Choices):
         print(f"You lost! They chose {TheirChoice} - {TheirChoice} beats {YourChoice}.")
+    else:
+        if(random.randint(0,1) == 1):
+            print(f"You win! {YourChoice} beats {TheirChoice}.")
+        else:
+            print(f"You lose! {TheirChoice} beats {YourChoice}.")
     Roshambo()
 Roshambo()
