@@ -6,4 +6,3 @@ MileageEnd = float(input("What was the car's end mileage?\n"))
 MilesDriven = MileageEnd - MileageStart
 Charge = (20 * HiredDays) + (0.05*MilesDriven)
 print(f"The total charge is {Charge}")
-

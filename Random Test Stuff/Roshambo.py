@@ -10,7 +10,7 @@ def Roshambo():
         f.close()
         f = open("weaknesses", 'r')
     Weaknesses = dict(json.loads(f.read()))
-    TheirChoice = random.choice(Weaknesses.values())
+    TheirChoice = random.choice(list(Weaknesses.keys()))
     YourChoice = input("Rock, Paper, Scissors, Lizard, Spock:\n").capitalize()
     if(YourChoice in Weaknesses[TheirChoice]):
         print(f"You win! They chose {TheirChoice} - {YourChoice} beats {TheirChoice}.")
@@ -21,6 +21,7 @@ def Roshambo():
     else:
         if(random.randint(0,1) == 1):
             print(f"You win! {YourChoice} beats {TheirChoice}.")
+            Weaknesses
         else:
             print(f"You lose! {TheirChoice} beats {YourChoice}.")
     Roshambo()
