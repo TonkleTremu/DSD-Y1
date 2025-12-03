@@ -25,8 +25,7 @@ def AskQuestion(askedquestions): # Pulls a random question from the library, and
     AskQuestion(askedquestions)
 
 def Intermissioning():
-    Choix = random.randint(0,5)
-    Choix = 5
+    Choix = random.randint(0,6)
     if(Choix == 0):
         print("We're intermissioning, Pomni!")
         time.sleep(5)
@@ -48,16 +47,23 @@ def Intermissioning():
         print("Hey, wanna see me waste your time?")
         thecount = random.randint(60,6000)
         for x in range(thecount):
-            print(x)
-            if(x == thecount % 4):
-                print("See, its funny because you have no clue how long this goes on for.")
-            if(x == 2*(thecount % 3)):
+            if(x == thecount // 4):
+                print("See, it's funny because you have no clue how long this goes on for.")
+            if(x == 2*(thecount // 3)):
                 print("Like, this could be 30% of the way, or 75%. By the way, this could actually go on for like an hour and a half.")
-            if(x == 8*(thecount % 10)):
+            if(x == 8*(thecount // 10)):
                 print("In fact, this could only be 20% right now.")
             if(x == thecount):
                 print("Well... that was fun.")
             time.sleep(1)
+    elif(Choix == 6):
+        print("Random websites go:")
+        time.sleep(2)
+        webbrowser.open("idk.lol")
+        webbrowser.open("http.cat")
+        webbrowser.open("https://mrdoob.com/projects/chromeexperiments/google-space/")
+        webbrowser.open("neocities.org")
+        webbrowser.open("wikipedia.com")
     else:
         print("See, I made this one as an else statement. That means this shouldn't run...")
         time.sleep(3)
