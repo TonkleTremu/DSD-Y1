@@ -4,19 +4,19 @@ import random
 import time
 import webbrowser
 
-def AskQuestion(askedquestions): # Pulls a random question from the library, and asks the user it.
-    question = random.choice(list(RevLib.OpenEnd.items()))
-    inputanswer = input(f"{question[0]}\n").lower()
+def AskQuestion(askedquestions): # Pulls a random question from the library, and asks the user it. "askedquestions" counts up until it gets to 5, then an intermission starts.
+    question = random.choice(list(RevLib.OpenEnd.items())) # A random question is pulled from the "RevLib" library.
+    inputanswer = input(f"{question[0]}\n").lower() # A response to the question is taken from the user.
     answers = question[1][1]
     response = False
-    for answer in answers:
+    for answer in answers: # Checks if the user's answer is close enough to any of the acceptable answers, using Lev().
         distance = Lev(answer, inputanswer)
         if(distance <= question[1][0]):
             response = True
     if(response):
         print("Correct answer!")
     else:
-        print(f"Wrong answer. It was {answers[0]}.")
+        print(f"Wrong answer. It was {answers[0]}.") # Tells the user the answer was the first acceptable answer in the list - for example, if RFID, NFC and Bluetooth are answers, it will say that RFID was the correct answer, though the other two would still be accepted.
     if(askedquestions >= 5):
         askedquestions = 0
         Intermissioning()
@@ -24,7 +24,7 @@ def AskQuestion(askedquestions): # Pulls a random question from the library, and
         askedquestions += 1
     AskQuestion(askedquestions)
 
-def Intermissioning():
+def Intermissioning(): # Creates an "intermission". Some random silly stuff to make revision more fun.
     Choix = random.randint(0,6)
     if(Choix == 0):
         print("We're intermissioning, Pomni!")
@@ -41,10 +41,10 @@ def Intermissioning():
     elif(Choix == 4):
         print("This program uses something called Levenshtein distance. It's really cool! Here, I'll open it for you:")
         time.sleep(4)
-        webbrowser.open("https://www.google.com/search?q=levenshtein+distance/")
+        webbrowser.open("https://www.google.com/search?q=levenshtein+distance/") # This should open in your native browser, such as Chrome or Opera.
         time.sleep(7)
     elif(Choix == 5):
-        print("Hey, wanna see me waste your time?")
+        print("Hey, wanna see me waste your time?") # I've never actually had the patience to test if this one works or not.
         thecount = random.randint(60,6000)
         for x in range(thecount):
             if(x == thecount // 4):
@@ -69,7 +69,7 @@ def Intermissioning():
         time.sleep(3)
 
 
-def Lev(str1, str2):
+def Lev(str1, str2): # Levenshtein distance implementation. Copied from Geeks For Geeks.
     m = len(str1)
     n = len(str2)
 
