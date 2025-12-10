@@ -2,7 +2,7 @@ inp = input("What should be ciphered?\n").lower() # The .lower() function was ad
 ciph = int(input("How far should it be ciphered?\n"))
 out = ""
 
-for x in inp:
+for x in inp: # Goes through each letter in a string and shifts it along the cipher.
     if(x.isalpha()):
         x = ord(x) + ciph
         while(x > 122): # Values exceeding z overflew into non-alpha characters, such as {.
