@@ -1,16 +1,16 @@
-key = {'a':'n', 'b':'o', 'c':'p', 'd':'q', 'e':'r', 'f':'s', 'g':'t', 'h':'u', 
+inp = input("What should be ciphered?\n").lower() # The .lower() function was added later, so that I didn't need to deal with capital letters.
+ciph = int(input("How far should it be ciphered?\n"))
+out = ""
 
-'i':'v', 'j':'w', 'k':'x', 'l':'y', 'm':'z', 'n':'a', 'o':'b', 'p':'c', 
+for x in inp:
+    if(x.isalpha()):
+        x = ord(x) + ciph
+        while(x > 122): # Values exceeding z overflew into non-alpha characters, such as {.
+            x -= 26
+        while(x < 97): # Values preceeding a went into non-alpha characters.
+            x += 26
+        out += chr(x)
+    else:
+        out += x
 
-'q':'d', 'r':'e', 's':'f', 't':'g', 'u':'h', 'v':'i', 'w':'j', 'x':'k', 
-
-'y':'l', 'z':'m', 'A':'N', 'B':'O', 'C':'P', 'D':'Q', 'E':'R', 'F':'S', 
-
-'G':'T', 'H':'U', 'I':'V', 'J':'W', 'K':'X', 'L':'Y', 'M':'Z', 'N':'A', 
-
-'O':'B', 'P':'C', 'Q':'D', 'R':'E', 'S':'F', 'T':'G', 'U':'H', 'V':'I', 
-
-'W':'J', 'X':'K', 'Y':'L', 'Z':'M'} 
-
-while(True):
-    print(key[input("Letter:")])
+print(out)
