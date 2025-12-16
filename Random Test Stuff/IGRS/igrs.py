@@ -21,8 +21,9 @@ toys = {
 def getUserInformation():
     name = input("Enter child's name: ")
 
+    lib.CsvToJson()
     returnedNames = lib.SearchCsv(name)
     for child in returnedNames:
-        print(f"\n Child ID: {child[0]} \n Child Name: {child[1]} \n Child's Interests: {child[2]} \n Suggested Toy: {child[3]}")
+        print(f"\n Child ID: {list(child.keys())[0]} \n Child Name: {list(child.values())[0]["Name"]} \n Child's Interests: {str(list(child.values())[0]["Interests"]).replace("'", "").replace("[", "").replace("]", "")} \n Suggested Toy: {list(child.values())[0]["Toy"]}")
 
 getUserInformation()
