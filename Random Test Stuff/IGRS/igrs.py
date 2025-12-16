@@ -20,7 +20,7 @@ toys = {
 
 def getUserInformation():
     name = input("Enter child's name: ")
-    while ageValid == False:
-        age = input("Enter child's age: ")
-        ageValid, age = lib.checkInt(age)
-    
+
+    returnedNames = lib.SearchCsv(name)
+    for child in returnedNames:
+        print(f"\n Child ID: {child[0]} \n Child Name: {child[1]} \n Child's Interests: {child[2]} \n Suggested Toy: {child[3]}")
