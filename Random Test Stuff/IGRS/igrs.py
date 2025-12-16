@@ -24,3 +24,5 @@ def getUserInformation():
     returnedNames = lib.SearchCsv(name)
     for child in returnedNames:
         print(f"\n Child ID: {child[0]} \n Child Name: {child[1]} \n Child's Interests: {child[2]} \n Suggested Toy: {child[3]}")
+
+getUserInformation()
