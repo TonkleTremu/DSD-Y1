@@ -23,7 +23,6 @@ def SearchCsv(name): # Returns a list of lists [{ID: {Name, Interests, Toy}}, {I
     try:
         ChosenChildren = []
         for x in ChildrenInterests:
-             print(ChildrenInterests[x]["Name"])
              if(ChildrenInterests[x]["Name"] == name.capitalize()):
                   ChosenChildren.append({x: ChildrenInterests[x]})
         return(ChosenChildren)
