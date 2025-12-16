@@ -1,6 +1,8 @@
 import csv
 
-FILENAME = "children.csv"
+FILENAME = "IGRS/children.csv"
+
+ChildrenInterests = {}
 
 def checkInt(num):
     try:
@@ -13,6 +15,7 @@ def CsvToJson():
     with open(FILENAME, "r", newline="") as file:
             reader = csv.reader(file)
             for line in reader:
-                print(line)
+                ChildrenInterests.update({"ID": line[0], "Interests": [line[6], line[7]], "Toy": line[4]})
+            print(ChildrenInterests)
 
 CsvToJson()
