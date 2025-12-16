@@ -1,0 +1,151 @@
+child_id,name,wishlist_items,submitted_date,last_year_gift,gift_satisfaction_rating,primary_interest,secondary_interest
+1,Jacob,"Keyboard, Drawing kit",11/01/2025,Plush toy,2,Sports,Cooking
+2,Ava,Story book,11/02/2025,Football,5,Tech,Nature
+3,Emily,Robot toy,11/03/2025,Lego,1,Sports,Drawing
+4,Isla,Magic set,11/04/2025,Lego,2,Reading,Robotics
+5,Ethan,Football,11/05/2025,Magic set,1,Tech,Cooking
+6,Liam,"Football, Puzzle",11/06/2025,Basketball,5,Building,Gaming
+7,Chloe,Science kit,11/07/2025,Magic set,3,Animals,Drawing
+8,Oliver,"Race car, Doll, Science kit",11/08/2025,Football,5,Sports,Cooking
+9,Leo,Art set,11/09/2025,Robot toy,3,Animals,Gaming
+10,Ella,"Story book, Science kit",11/10/2025,Basketball,1,Building,Drawing
+11,Noah,Race car,11/11/2025,Doll,2,Sports,Nature
+12,Grace,Keyboard,11/12/2025,Plush toy,3,Arts & Crafts,Robotics
+13,Oliver,"Keyboard, Robot toy",11/13/2025,Magic set,1,Animals,Dancing
+14,Lily,"Magic set, Building blocks, Story book",11/14/2025,Story book,4,Animals,Cooking
+15,Ava,"Art set, Robot toy",11/15/2025,Race car,5,Arts & Crafts,Cooking
+16,Oliver,Doll,11/16/2025,Basketball,4,Music,Robotics
+17,Emily,"Magic set, Lego, Doll",11/17/2025,Basketball,4,Reading,Drawing
+18,Oliver,"Story book, Doll, Building blocks",11/18/2025,Art set,3,Arts & Crafts,Puzzles
+19,Ethan,"Drawing kit, Keyboard, Football",11/19/2025,Science kit,4,Building,Dancing
+20,Oliver,Robot toy,11/20/2025,Science kit,1,Science,Dancing
+21,Emily,Basketball,11/21/2025,Race car,1,Sports,Puzzles
+22,Lucas,"Keyboard, Building blocks",11/22/2025,Doll,5,Building,Cooking
+23,Sofia,"Robot toy, Doll, Keyboard",11/23/2025,Science kit,5,Music,Puzzles
+24,Grace,"Story book, Drawing kit, Football",11/24/2025,Football,4,Tech,Photography
+25,Ethan,Keyboard,11/25/2025,Drawing kit,4,Building,Gaming
+26,James,"Race car, Robot toy, Art set",11/26/2025,Keyboard,2,Animals,Dancing
+27,Lucas,"Plush toy, Doll",11/27/2025,Doll,5,Music,Drawing
+28,Lily,"Art set, Building blocks, Football",11/28/2025,Plush toy,3,Music,Puzzles
+29,Leo,"Football, Magic set, Plush toy",11/29/2025,Football,3,Building,Gaming
+30,Noah,Puzzle,11/30/2025,Robot toy,5,Arts & Crafts,Drawing
+31,Lucas,Story book,12/01/2025,Race car,2,Building,Photography
+32,Max,"Football, Magic set",12/02/2025,Race car,5,Reading,Drawing
+33,Mia,"Race car, Building blocks, Drawing kit",12/03/2025,Doll,4,Reading,Cooking
+34,Emily,"Basketball, Race car",12/04/2025,Science kit,3,Arts & Crafts,Puzzles
+35,Emily,"Science kit, Art set",12/05/2025,Lego,4,Building,Dancing
+36,Jacob,"Plush toy, Art set, Building blocks",12/06/2025,Drawing kit,3,Music,Robotics
+37,Noah,"Story book, Race car, Drawing kit",12/07/2025,Puzzle,3,Animals,Puzzles
+38,Jacob,Story book,12/08/2025,Football,3,Science,Cooking
+39,Ethan,"Football, Plush toy",12/09/2025,Football,4,Arts & Crafts,Photography
+40,Chloe,Basketball,12/10/2025,Building blocks,5,Animals,Robotics
+41,Oliver,"Puzzle, Basketball, Art set",12/11/2025,Keyboard,5,Arts & Crafts,Puzzles
+42,Liam,Basketball,12/12/2025,Football,5,Tech,Cooking
+43,Emily,"Art set, Drawing kit",12/13/2025,Keyboard,5,Science,Gaming
+44,Emily,"Doll, Lego",12/14/2025,Story book,3,Music,Drawing
+45,Grace,"Race car, Art set, Plush toy",12/15/2025,Science kit,5,Building,Robotics
+46,Noah,"Building blocks, Art set",12/16/2025,Race car,1,Science,Nature
+47,Mia,Science kit,12/17/2025,Story book,5,Sports,Drawing
+48,Emily,Race car,12/18/2025,Plush toy,2,Arts & Crafts,Photography
+49,Sofia,"Magic set, Keyboard, Building blocks",12/19/2025,Drawing kit,4,Sports,Nature
+50,Max,"Puzzle, Science kit",12/20/2025,Football,2,Science,Photography
+51,Ethan,Puzzle,12/21/2025,Drawing kit,2,Animals,Cooking
+52,Max,Puzzle,12/22/2025,Doll,4,Arts & Crafts,Gaming
+53,Amelia,"Puzzle, Keyboard, Robot toy",12/23/2025,Science kit,4,Tech,Photography
+54,Chloe,"Doll, Basketball",12/24/2025,Art set,5,Tech,Photography
+55,Sofia,"Keyboard, Puzzle, Science kit",12/25/2025,Art set,4,Sports,Photography
+56,Lucas,"Basketball, Lego, Race car",12/26/2025,Puzzle,1,Reading,Photography
+57,Liam,Football,12/27/2025,Race car,4,Sports,Nature
+58,Noah,Plush toy,12/28/2025,Plush toy,4,Music,Cooking
+59,Isla,"Robot toy, Magic set, Lego",12/29/2025,Lego,2,Building,Dancing
+60,Lucas,"Magic set, Story book",12/30/2025,Plush toy,5,Building,Puzzles
+61,Max,"Story book, Race car, Basketball",12/31/2025,Art set,5,Animals,Drawing
+62,Grace,"Lego, Science kit",01/01/2026,Story book,1,Building,Dancing
+63,Max,"Drawing kit, Keyboard",01/02/2026,Football,2,Reading,Robotics
+64,Chloe,"Race car, Lego",01/03/2026,Magic set,2,Sports,Dancing
+65,Lucas,"Doll, Football",01/04/2026,Keyboard,1,Reading,Drawing
+66,Grace,Keyboard,01/05/2026,Magic set,5,Tech,Cooking
+67,Lily,Football,01/06/2026,Race car,4,Tech,Drawing
+68,Lily,"Keyboard, Lego",01/07/2026,Keyboard,5,Arts & Crafts,Drawing
+69,Max,"Science kit, Magic set, Building blocks",01/08/2026,Drawing kit,4,Music,Gaming
+70,Max,Basketball,01/09/2026,Magic set,2,Animals,Drawing
+71,Ethan,"Story book, Race car, Plush toy",01/10/2026,Puzzle,2,Reading,Nature
+72,Liam,"Science kit, Puzzle, Race car",01/11/2026,Basketball,2,Animals,Cooking
+73,Grace,"Robot toy, Building blocks, Drawing kit",01/12/2026,Magic set,5,Animals,Gaming
+74,Ethan,Football,1/13/2026,Lego,5,Music,Dancing
+75,Max,"Basketball, Doll, Race car",1/14/2026,Science kit,4,Tech,Gaming
+76,Oliver,"Doll, Football",1/15/2026,Science kit,1,Reading,Drawing
+77,James,Drawing kit,1/16/2026,Lego,1,Reading,Drawing
+78,Isla,"Plush toy, Building blocks, Football",1/17/2026,Puzzle,5,Building,Cooking
+79,Emily,"Race car, Science kit",1/18/2026,Race car,2,Science,Drawing
+80,Grace,"Magic set, Plush toy",1/19/2026,Magic set,5,Tech,Photography
+81,Emily,Lego,1/20/2026,Football,2,Animals,Dancing
+82,Mia,"Keyboard, Puzzle",1/21/2026,Robot toy,2,Building,Drawing
+83,Noah,"Doll, Magic set",1/22/2026,Robot toy,3,Sports,Drawing
+84,Henry,"Science kit, Basketball",1/23/2026,Puzzle,1,Music,Drawing
+85,Ella,"Doll, Lego",1/24/2026,Building blocks,2,Music,Puzzles
+86,Oliver,Science kit,1/25/2026,Science kit,1,Reading,Cooking
+87,Ethan,Lego,1/26/2026,Football,5,Tech,Dancing
+88,Ava,"Art set, Drawing kit",1/27/2026,Robot toy,3,Science,Cooking
+89,Ava,"Science kit, Drawing kit, Race car",1/28/2026,Plush toy,1,Animals,Dancing
+90,Lily,Race car,1/29/2026,Drawing kit,2,Sports,Cooking
+91,Henry,Building blocks,1/30/2026,Keyboard,4,Animals,Cooking
+92,Max,Lego,1/31/2026,Lego,3,Arts & Crafts,Nature
+93,Henry,Football,02/01/2026,Magic set,5,Tech,Robotics
+94,Ethan,Building blocks,02/02/2026,Robot toy,2,Animals,Puzzles
+95,Jacob,"Basketball, Lego",02/03/2026,Story book,2,Building,Dancing
+96,Emily,Magic set,02/04/2026,Science kit,1,Tech,Robotics
+97,Isla,Drawing kit,02/05/2026,Robot toy,1,Sports,Drawing
+98,Oliver,Science kit,02/06/2026,Keyboard,5,Arts & Crafts,Cooking
+99,Mia,"Story book, Robot toy, Race car",02/07/2026,Keyboard,2,Science,Puzzles
+100,Henry,Plush toy,02/08/2026,Story book,1,Science,Robotics
+101,Noah,"Story book, Race car",02/09/2026,Story book,1,Reading,Puzzles
+102,Sofia,Plush toy,02/10/2026,Doll,4,Sports,Robotics
+103,Grace,Magic set,02/11/2026,Art set,2,Reading,Dancing
+104,Mia,"Puzzle, Lego",02/12/2026,Lego,4,Reading,Dancing
+105,Henry,Keyboard,2/13/2026,Science kit,4,Science,Gaming
+106,Mia,"Plush toy, Art set",2/14/2026,Drawing kit,3,Sports,Robotics
+107,Chloe,"Race car, Drawing kit",2/15/2026,Drawing kit,2,Reading,Robotics
+108,Sofia,Magic set,2/16/2026,Lego,4,Arts & Crafts,Photography
+109,Amelia,Doll,2/17/2026,Art set,3,Science,Drawing
+110,Grace,Drawing kit,2/18/2026,Lego,4,Tech,Photography
+111,Liam,Doll,2/19/2026,Science kit,4,Arts & Crafts,Photography
+112,Chloe,"Football, Robot toy, Building blocks",2/20/2026,Building blocks,1,Tech,Gaming
+113,Jacob,Race car,2/21/2026,Robot toy,3,Sports,Robotics
+114,Lucas,"Football, Doll, Robot toy",2/22/2026,Basketball,4,Science,Dancing
+115,James,Building blocks,2/23/2026,Magic set,2,Building,Nature
+116,Lily,"Art set, Lego",2/24/2026,Science kit,1,Music,Photography
+117,Ava,Plush toy,2/25/2026,Basketball,3,Building,Robotics
+118,Lily,Lego,2/26/2026,Doll,1,Music,Robotics
+119,Jacob,"Football, Keyboard, Basketball",2/27/2026,Robot toy,5,Sports,Robotics
+120,Lily,"Football, Magic set",2/28/2026,Lego,3,Music,Dancing
+121,Ella,"Story book, Magic set, Keyboard",03/01/2026,Building blocks,2,Tech,Nature
+122,Noah,"Robot toy, Lego, Art set",03/02/2026,Robot toy,4,Building,Dancing
+123,Oliver,"Magic set, Puzzle",03/03/2026,Magic set,3,Music,Gaming
+124,Grace,"Magic set, Keyboard, Plush toy",03/04/2026,Puzzle,3,Building,Cooking
+125,Max,Basketball,03/05/2026,Race car,3,Reading,Robotics
+126,Henry,"Doll, Keyboard",03/06/2026,Football,2,Animals,Robotics
+127,Mia,"Robot toy, Basketball, Lego",03/07/2026,Doll,2,Tech,Dancing
+128,Leo,Doll,03/08/2026,Puzzle,4,Building,Gaming
+129,Max,Football,03/09/2026,Magic set,2,Music,Robotics
+130,Oliver,Art set,03/10/2026,Puzzle,1,Music,Robotics
+131,Leo,"Robot toy, Magic set",03/11/2026,Puzzle,5,Reading,Photography
+132,Grace,"Basketball, Building blocks",03/12/2026,Doll,4,Tech,Robotics
+133,Amelia,"Doll, Robot toy",3/13/2026,Puzzle,3,Animals,Nature
+134,Max,"Magic set, Story book, Football",3/14/2026,Science kit,4,Animals,Cooking
+135,Sofia,Lego,3/15/2026,Story book,3,Animals,Gaming
+136,Ella,"Keyboard, Race car, Doll",3/16/2026,Puzzle,3,Reading,Cooking
+137,Grace,"Magic set, Basketball, Art set",3/17/2026,Puzzle,1,Arts & Crafts,Robotics
+138,Chloe,"Art set, Basketball",3/18/2026,Building blocks,3,Music,Cooking
+139,Lily,"Doll, Basketball, Robot toy",3/19/2026,Story book,3,Music,Dancing
+140,Henry,"Plush toy, Lego, Keyboard",3/20/2026,Race car,5,Sports,Dancing
+141,James,"Puzzle, Football, Race car",3/21/2026,Building blocks,2,Building,Puzzles
+142,Lily,"Race car, Football",3/22/2026,Drawing kit,2,Sports,Photography
+143,James,Plush toy,3/23/2026,Magic set,4,Reading,Puzzles
+144,Ethan,Story book,3/24/2026,Race car,4,Sports,Dancing
+145,Lucas,Drawing kit,3/25/2026,Puzzle,3,Sports,Photography
+146,Mia,"Magic set, Race car",3/26/2026,Plush toy,5,Tech,Puzzles
+147,Mia,"Magic set, Football, Story book",3/27/2026,Football,4,Music,Robotics
+148,Henry,"Story book, Building blocks",3/28/2026,Lego,1,Music,Nature
+149,Lily,Science kit,3/29/2026,Story book,3,Animals,Robotics
+150,Henry,"Race car, Art set, Doll",3/30/2026,Plush toy,1,Tech,Nature
