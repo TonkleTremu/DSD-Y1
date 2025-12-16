@@ -26,4 +26,5 @@ def getUserInformation():
     for child in returnedNames:
         print(f"\n Child ID: {list(child.keys())[0]} \n Child Name: {list(child.values())[0]["Name"]} \n Child's Interests: {str(list(child.values())[0]["Interests"]).replace("'", "").replace("[", "").replace("]", "")} \n Suggested Toy: {list(child.values())[0]["Toy"]}")
 
-getUserInformation()
+while(True):
+    getUserInformation()
