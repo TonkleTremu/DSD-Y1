@@ -1,6 +1,6 @@
 import csv
 
-FILENAME = "IGRS/children.csv"
+FILENAME = "children.csv"
 
 ChildrenInterests = {}
 
