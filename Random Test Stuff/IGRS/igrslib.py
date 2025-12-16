@@ -1,6 +1,6 @@
 import csv
 
-FILENAME = "children.csv"
+FILENAME = "IGRS/children.csv"
 
 ChildrenInterests = {}
 
@@ -25,9 +25,8 @@ def SearchCsv(name): # Returns a list of lists [{ID: {Name, Interests, Toy}}, {I
         for x in ChildrenInterests:
              if(ChildrenInterests[x]["Name"] == name.capitalize()):
                   ChosenChildren.append({x: ChildrenInterests[x]})
+        if(ChosenChildren == []):
+             raise(ValueError)
         return(ChosenChildren)
     except:
          return("No children found! Santa can't see them while they're sleeping, so he knows they're awake...")
-
-CsvToJson()
-print(SearchCsv(input()))
