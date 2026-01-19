@@ -23,8 +23,11 @@ def getUserInformation():
 
     lib.CsvToJson()
     returnedNames = lib.SearchCsv(name)
-    for child in returnedNames:
-        print(f"\n Child ID: {list(child.keys())[0]} \n Child Name: {list(child.values())[0]["Name"]} \n Child's Interests: {str(list(child.values())[0]["Interests"]).replace("'", "").replace("[", "").replace("]", "")} \n Suggested Toy: {list(child.values())[0]["Toy"]}")
+    if(returnedNames == "No children found! Santa can't see them while they're sleeping, so he knows they're awake..."):
+        print("No children found! Santa can't see them while they're sleeping, so he knows they're awake...")
+    else:
+        for child in returnedNames:
+            print(f"\n Child ID: {list(child.keys())[0]} \n Child Name: {list(child.values())[0]["Name"]} \n Child's Interests: {str(list(child.values())[0]["Interests"]).replace("'", "").replace("[", "").replace("]", "")} \n Suggested Toy: {list(child.values())[0]["Toy"]}")
 
 while(True):
     getUserInformation()

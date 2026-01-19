@@ -1,6 +1,6 @@
 import csv
 
-FILENAME = "IGRS/children.csv"
+FILENAME = "children.csv"
 
 ChildrenInterests = {}
 
@@ -17,7 +17,6 @@ def CsvToJson():
             for line in reader:
                 ChildrenInterests.update({line[0]: {"Name": line[1], "Interests": [line[6], line[7]], "Toy": line[4]}})
             ChildrenInterests.pop("child_id")
-            print(ChildrenInterests)
 
 def SearchCsv(name): # Returns a list of lists [{ID: {Name, Interests, Toy}}, {ID: {Name, Interests, Toy}}]
     try:
