@@ -15,7 +15,7 @@ player_y = 10
 player_velocity = [0,0]
 
 # World Data
-CreatureCount = 4 # If 3 preset creatures exist, this should be 4.
+CreatureCount = 7 # If 3 preset creatures exist, this should be 4.
 GlobalCreatures = {1: [(0,0,127), (0,0), (15, 150)],
              2: [(127,0,0), (0,0), (20, 200)],
              3: [(0,127,0), (0,0), (25, 250)],
@@ -65,7 +65,8 @@ def CheckNeighbours():
             if(random.randint(1,25) == 1):
                 try:
                     # Checks if the creatures are next to each other.
-                    if(math.isclose(GlobalCreatures[x][2][0], GlobalCreatures[i][2][0], rel_tol=1) and math.isclose(GlobalCreatures[x][2][1], GlobalCreatures[i][2][1], rel_tol=1)):
+                    print((GlobalCreatures[x][2][0]+GlobalCreatures[i][2][0])/2 in [-1,0,1])
+                    if((GlobalCreatures[x][2][0]+GlobalCreatures[i][2][0])/2 in [-1,0,1]):
                         # Checks if the creatures are similar species. If so, a new cretin will spawn.
                         # If all colour values are within 30, they may breed.
                         if(math.isclose(GlobalCreatures[x][0][0], GlobalCreatures[i][0][0], rel_tol=30) and math.isclose(GlobalCreatures[x][0][1], GlobalCreatures[i][0][1], rel_tol=30) and math.isclose(GlobalCreatures[x][0][2], GlobalCreatures[i][0][2], rel_tol=30)):
@@ -90,7 +91,7 @@ def CheckNeighbours():
                                         NewBlue = 255
                                     GlobalCreatures.update({CreatureCount: [(NewRed, NewGreen, NewBlue), (x,i), (random.randint(0,res_x), random.randint(0,res_y))]})
                                     CreatureCount += 1
-                        elif(GlobalCreatures[x][0][0] >= random.randint(0,127)):
+                        elif(GlobalCreatures[x][0][0] >= random.randint(0,63)):
                                     if(random.randint(0, GlobalCreatures[x][0][0]) <= random.randint(0, GlobalCreatures[i][0][0])):
                                         GlobalCreatures.pop(x)
                                     else:
