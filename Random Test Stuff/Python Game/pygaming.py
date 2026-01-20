@@ -15,7 +15,7 @@ player_y = 10
 player_velocity = [0,0]
 
 # World Data
-CreatureCount = 4 # If 3 preset creatures exist, this should be 4.
+CreatureCount = 7 # If 3 preset creatures exist, this should be 4.
 GlobalCreatures = {1: [(0,0,127), (0,0), (15, 150)],
              2: [(127,0,0), (0,0), (20, 200)],
              3: [(0,127,0), (0,0), (25, 250)],
@@ -62,41 +62,44 @@ def CheckNeighbours():
     Creatures = GlobalCreatures
     for x in list(GlobalCreatures.keys()):
         for i in list(GlobalCreatures.keys()):
-            if(random.randint(1,25) == 1):
-                try:
-                    # Checks if the creatures are next to each other.
-                    if(math.isclose(GlobalCreatures[x][2][0], GlobalCreatures[i][2][0], rel_tol=1) and math.isclose(GlobalCreatures[x][2][1], GlobalCreatures[i][2][1], rel_tol=1)):
-                        # Checks if the creatures are similar species. If so, a new cretin will spawn.
-                        # If all colour values are within 30, they may breed.
-                        if(math.isclose(GlobalCreatures[x][0][0], GlobalCreatures[i][0][0], rel_tol=30) and math.isclose(GlobalCreatures[x][0][1], GlobalCreatures[i][0][1], rel_tol=30) and math.isclose(GlobalCreatures[x][0][2], GlobalCreatures[i][0][2], rel_tol=30)):
-                            if((x in GlobalCreatures[i][1]) or (i in GlobalCreatures[x][1])):
-                                pass
-                            else:
-                                if((GlobalCreatures[x][0][1] + GlobalCreatures[i][0][1])/2 <= random.randint(0,256)):
-                                    NewRed = round((GlobalCreatures[x][0][0] + GlobalCreatures[i][0][0])/2) + random.randint(-5,5)
-                                    if(NewRed < 0):
-                                        NewRed = 0
-                                    elif(NewRed > 255):
-                                        NewRed = 255
-                                    NewGreen = round((GlobalCreatures[x][0][1] + GlobalCreatures[i][0][1])/2) + random.randint(-5,5)
-                                    if(NewGreen < 0):
-                                        NewGreen = 0
-                                    elif(NewGreen > 255):
-                                        NewGreen = 255
-                                    NewBlue = round((GlobalCreatures[x][0][2] + GlobalCreatures[i][0][2])/2) + random.randint(-5,5)
-                                    if(NewBlue < 0):
-                                        NewBlue = 0
-                                    elif(NewBlue > 255):
-                                        NewBlue = 255
-                                    GlobalCreatures.update({CreatureCount: [(NewRed, NewGreen, NewBlue), (x,i), (random.randint(0,res_x), random.randint(0,res_y))]})
-                                    CreatureCount += 1
-                        elif(GlobalCreatures[x][0][0] >= random.randint(0,127)):
-                                    if(random.randint(0, GlobalCreatures[x][0][0]) <= random.randint(0, GlobalCreatures[i][0][0])):
-                                        GlobalCreatures.pop(x)
-                                    else:
-                                        GlobalCreatures.pop(i)
-                except:
-                    print("stop! its already dead...")
+            if(not(x == i)):
+                if(random.randint(1,25) == 1):
+                    try:
+                        # Checks if the creatures are next to each other.
+                        print(Creatures[x][2][0], Creatures[i][2][0], math.isclose(14, 10, rel_tol=1), x, i)
+                        if((math.isclose(GlobalCreatures[x][2][0], GlobalCreatures[i][2][0], rel_tol=1)) and (math.isclose(GlobalCreatures[x][2][1], GlobalCreatures[i][2][1], rel_tol=1))):
+                            # Checks if the creatures are similar species. If so, a new cretin will spawn.
+                            # If all colour values are within 30, they may breed.
+                            if(math.isclose(GlobalCreatures[x][0][0], GlobalCreatures[i][0][0], rel_tol=30) and math.isclose(GlobalCreatures[x][0][1], GlobalCreatures[i][0][1], rel_tol=30) and math.isclose(GlobalCreatures[x][0][2], GlobalCreatures[i][0][2], rel_tol=30)):
+                                if((x in GlobalCreatures[i][1]) or (i in GlobalCreatures[x][1])):
+                                    pass
+                                else:
+                                    if(random.randint(1,5) == 1):
+                                        NewRed = round((GlobalCreatures[x][0][0] + GlobalCreatures[i][0][0])/2) + random.randint(-5,5)
+                                        if(NewRed < 0):
+                                            NewRed = 0
+                                        elif(NewRed > 255):
+                                            NewRed = 255
+                                        NewGreen = round((GlobalCreatures[x][0][1] + GlobalCreatures[i][0][1])/2) + random.randint(-5,5)
+                                        if(NewGreen < 0):
+                                            NewGreen = 0
+                                        elif(NewGreen > 255):
+                                            NewGreen = 255
+                                        NewBlue = round((GlobalCreatures[x][0][2] + GlobalCreatures[i][0][2])/2) + random.randint(-5,5)
+                                        if(NewBlue < 0):
+                                            NewBlue = 0
+                                        elif(NewBlue > 255):
+                                            NewBlue = 255
+                                        GlobalCreatures.update({CreatureCount: [(NewRed, NewGreen, NewBlue), (x,i), (random.randint(0,res_x), random.randint(0,res_y))]})
+                                        CreatureCount += 1
+                            elif(random.randint(1,3) == 1):
+                                        if(random.randint(0, GlobalCreatures[x][0][0]) <= random.randint(0, GlobalCreatures[i][0][0])):
+                                            GlobalCreatures.pop(x)
+                                        else:
+                                            GlobalCreatures.pop(i)
+                    except:
+                        print("stop! its already dead...")
+
 def ShowCreatures():
     for x in GlobalCreatures:
         pygame.draw.circle(DISPLAYSURF, GlobalCreatures[x][0], GlobalCreatures[x][2], 1, 1)    
