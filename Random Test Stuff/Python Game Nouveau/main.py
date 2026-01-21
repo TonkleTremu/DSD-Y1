@@ -19,22 +19,25 @@ DISPLAYSURF = pygame.display.set_mode((res_x, res_y))
 pygame.display.set_caption("Test")
 fpsClock = pygame.time.Clock()
 
-@dataclass
-class Velocity:
-    x: Optional[float] = 0
-    y: Optional[float] = 0
-    rot: Optional[float] = 0 # "rot" is the object's rotational speed. Positive = clockwise.
-
 
 @dataclass
 class GameObject:
-    x: Optional[float] = 0 # The game object's current x co-ordinate.
-    y: Optional[float] = 0 # The game object's current y co-ordinate.
-    x_size: float # The x and y size values. Used for physics-based collisions.
+    # The game object's current co-ordinates.
+    x: Optional[float] = 0 
+    y: Optional[float] = 0
+
+    # The x and y size values. Used for physics-based collisions.
+    x_size: float 
     y_size: float
+
     color: Optional[tuple] = (0,0,0) # The object's color. Only used if it is a basic algorithmic shape.
     shape: Optional[str] = "circle" # The object's shape. If a sprite is supplied, that will be used instead.
     sprite: Optional[str] = "sprites/error.png" # The object's sprite. If left blank, a shape will be used instead.
+
+    # The values for velocity.
+    vel_x: Optional[float] = 0 
+    vel_y: Optional[float] = 0
+    rot: Optional[float] = 0 # "rot" is the object's rotational speed. Positive = clockwise.
 
 def PlayerMovementHandler():
     '''Handles player inputs and such.'''
@@ -61,7 +64,7 @@ def PlayerMovementHandler():
     pygame.draw.circle(DISPLAYSURF, MINT, (player.x, player.y), 10, 3)
 
 
-player = GameObject()
+player = GameObject(10, 15)
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(WHITE)
