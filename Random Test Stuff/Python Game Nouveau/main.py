@@ -22,13 +22,13 @@ fpsClock = pygame.time.Clock()
 
 @dataclass
 class GameObject:
-    # The game object's current co-ordinates.
-    x: Optional[float] = 0 
-    y: Optional[float] = 0
-
     # The x and y size values. Used for physics-based collisions.
     x_size: float 
     y_size: float
+
+    # The game object's current co-ordinates.
+    x: Optional[float] = 0 
+    y: Optional[float] = 0
 
     color: Optional[tuple] = (0,0,0) # The object's color. Only used if it is a basic algorithmic shape.
     shape: Optional[str] = "circle" # The object's shape. If a sprite is supplied, that will be used instead.
@@ -37,7 +37,7 @@ class GameObject:
     # The values for velocity.
     vel_x: Optional[float] = 0 
     vel_y: Optional[float] = 0
-    rot: Optional[float] = 0 # "rot" is the object's rotational speed. Positive = clockwise.
+    rot: Optional[float] = 0 # "rot" is the object's rotational speed. Positive = clockwise. 
 
 def PlayerMovementHandler():
     '''Handles player inputs and such.'''
@@ -55,16 +55,16 @@ def PlayerMovementHandler():
     if(player.x < player.x_size):
         player.x = res_x - player.x_size
     if(player.x > res_x - player.x_size):
-        player.x = 10
+        player.x = player.x_size
     if(player.y < player.y_size):
         player.y = res_y - player.y_size
     if(player.y > res_y - player.y_size):
-        player.y = 10
+        player.y = player.y_size
     
     pygame.draw.circle(DISPLAYSURF, MINT, (player.x, player.y), 10, 3)
 
 
-player = GameObject(10, 15)
+player = GameObject(10, 10)
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(WHITE)
