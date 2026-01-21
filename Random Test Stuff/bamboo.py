@@ -1,6 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib import style 
+
+x = 5
+
+str(x)
 
 plt.style.use("classic")
 
