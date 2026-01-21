@@ -8,7 +8,7 @@ MINT = (61, 255, 171)
 res_x = 400
 res_y = 300
 game_name = "Test Game"
-FPS = 60
+FPS = 6000
 
 # Static Player Data
 PLAYER_HEIGHT = 10
