@@ -52,7 +52,8 @@ def PlayerMovementHandler():
         player.vel_y -= player.speed
     if(pygame.key.get_pressed()[K_DOWN] | pygame.key.get_pressed()[K_s]):
         player.vel_y += player.speed
-    
+
+    # This code handles velocity.
     acceleration = 15
     deceleration = 15
 
@@ -98,6 +99,11 @@ while True: # Main game loop - like Unity's "update" void thing.
     PlayerMovementHandler()
 
     pygame.display.update()
+    
+    # This takes a screenshot.
+    if(pygame.key.get_pressed()[K_F2]):
+        pygame.image.save(DISPLAYSURF, "screenshot.png")
+        
     fpsClock.tick(60)
 
     for event in pygame.event.get():
