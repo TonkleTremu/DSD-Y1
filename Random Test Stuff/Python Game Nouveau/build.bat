@@ -1,2 +1,2 @@
 pip install PyInstaller
-python -m PyInstaller pygaming.py --onefile --noconsole
+python -m PyInstaller main.py --onefile --noconsole

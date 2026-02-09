@@ -102,6 +102,7 @@ def Rigidbody(Obj: GameObject):
             x,y = CoordinatesToScreen(Obj)
             box_rect = Rect(x, y, Obj.x_size, Obj.y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
+            pygame.draw.circle(DISPLAYSURF, (255,0,0), (x,y), 1, 1)
 
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
@@ -133,7 +134,7 @@ while True: # Main game loop - like Unity's "update" void thing.
     for Obj1 in GameObjects:
         for Obj2 in GameObjects:
             if(not Obj1 == Obj2):
-                if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
+                if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player" and not Obj1.collider):
                     Obj1.inCollision = True
                     Obj1.collider = Obj2
 
