@@ -86,16 +86,12 @@ def PlayerMovementHandler():
         player.y = worldSizeY - BorderY
     if(player.y > worldSizeY - BorderY):
         player.y = BorderY
-
-    try:
-        # Grabbing boxes? Lovely!
-        if(pygame.key.get_pressed()[K_g]):
-            player.collider.isHeld = not player.collider.isHeld
+    
+    # Moves the picked-up object to the player's centre.
+    if(type(player.collider) == type(player)):
         if(player.collider.isHeld):
-            player.collider.x = player.x
-            player.collider.y = player.y
-    except:
-        pass
+            player.collider.x = player.x - player.collider.x_size/2
+            player.collider.y = player.y - player.collider.y_size/2
     
     pygame.draw.circle(DISPLAYSURF, MINT, CoordinatesToScreen(player), 10, 3)
 
@@ -125,7 +121,8 @@ def CompareCoordinates(Obj1, Obj2, allowed_distance):
 
 player = GameObject(10, 10, id="player")
 box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
-GameObjects = [player, box]
+box2 = GameObject(10,10, id="test-box2", shape="box", color=WHITE, x=30, y=30)
+GameObjects = [player, box, box2]
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(BLACK)
@@ -145,10 +142,18 @@ while True: # Main game loop - like Unity's "update" void thing.
     # This takes a screenshot.
     if(pygame.key.get_pressed()[K_F2]):
         pygame.image.save(DISPLAYSURF, "screenshot.png")
-        
+
+            
     fpsClock.tick(60)
 
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
+        if event.type == KEYDOWN:
+            if(type(player.collider) == type(player)):
+                # Grabbing boxes? Lovely!
+                if(event.key == pygame.K_g):
+                    player.collider.isHeld = not player.collider.isHeld
+                    if(not player.collider.isHeld):
+                        player.collider = None
