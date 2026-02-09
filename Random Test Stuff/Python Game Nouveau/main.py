@@ -1,12 +1,12 @@
 import pygame, sys, random, math
 from pygame.locals import *
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
 from typing import Optional
+
 
 # Global Variables
 res_x = 400
 res_y = 300
-GameObjects = []
 
 # Global Constants
 WHITE = (255,255,255)
@@ -15,7 +15,7 @@ MINT = (61, 255, 171)
 
 # Setup stuff. Should be mostly self-explanatory.
 pygame.init()
-DISPLAYSURF = pygame.display.set_mode((res_x, res_y))
+DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
 pygame.display.set_caption("Test")
 fpsClock = pygame.time.Clock()
 worldSizeX = 100
@@ -27,6 +27,7 @@ class GameObject:
     # The x and y size values. Used for physics-based collisions.
     x_size: float 
     y_size: float
+    id: str
 
     # The game object's current co-ordinates.
     x: Optional[float] = 0 
@@ -83,6 +84,13 @@ def PlayerMovementHandler():
     
     pygame.draw.circle(DISPLAYSURF, MINT, CoordinatesToScreen(player), 10, 3)
 
+def Rigidbody(Obj: GameObject):
+    special_cases = ["player"]
+    if(id not in special_cases):
+        if(Obj.shape == "box"):
+            box_rect = Rect(Obj.y-(Obj.y_size/2), Obj.x-(Obj.x_size/2), Obj.y-(Obj.y_size/2), Obj.x+(Obj.x_size/2))
+            pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
+
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
     ScalarX = DISPLAYSURF.get_width() / worldSizeX
@@ -91,12 +99,22 @@ def CoordinatesToScreen(Obj):
     y = round(Obj.y * ScalarY)
     return((x,y))
 
-player = GameObject(10, 10)
+def CompareCoordinates(Obj1, Obj2, allowed_distance):
+    point1 = (Obj1.x, Obj1.y)
+    point2 = (Obj2.x, Obj2.y)
+    if math.dist(point1, point2) < allowed_distance:
+        print("Colliding")
+
+player = GameObject(10, 10, id="player")
+box = GameObject(10,10, id="test-box", shape="box", color=MINT)
+GameObjects = [player, box]
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(BLACK)
 
     PlayerMovementHandler()
+    for Obj in GameObjects:
+        Rigidbody(Obj)
 
     pygame.display.update()
     
