@@ -42,6 +42,11 @@ class GameObject:
     vel_x: Optional[float] = 0 
     vel_y: Optional[float] = 0
 
+    # Collision Stuff.
+    inCollision: Optional[bool] = False
+    collider: Optional[dataclass] = None
+    isHeld: Optional[bool] = False
+
 def PlayerMovementHandler():
     '''Handles player inputs and such.'''
     # Basic movement script. Accepts either WASD or arrow key inputs.
@@ -81,6 +86,16 @@ def PlayerMovementHandler():
         player.y = worldSizeY - BorderY
     if(player.y > worldSizeY - BorderY):
         player.y = BorderY
+
+    try:
+        # Grabbing boxes? Lovely!
+        if(pygame.key.get_pressed()[K_g]):
+            player.collider.isHeld = not player.collider.isHeld
+        if(player.collider.isHeld):
+            player.collider.x = player.x
+            player.collider.y = player.y
+    except:
+        pass
     
     pygame.draw.circle(DISPLAYSURF, MINT, CoordinatesToScreen(player), 10, 3)
 
@@ -88,7 +103,8 @@ def Rigidbody(Obj: GameObject):
     special_cases = ["player"]
     if(id not in special_cases):
         if(Obj.shape == "box"):
-            box_rect = Rect(Obj.y-(Obj.y_size/2), Obj.x-(Obj.x_size/2), Obj.y-(Obj.y_size/2), Obj.x+(Obj.x_size/2))
+            x,y = CoordinatesToScreen(Obj)
+            box_rect = Rect(x, y, Obj.x_size, Obj.y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
 
 def CoordinatesToScreen(Obj):
@@ -103,10 +119,12 @@ def CompareCoordinates(Obj1, Obj2, allowed_distance):
     point1 = (Obj1.x, Obj1.y)
     point2 = (Obj2.x, Obj2.y)
     if math.dist(point1, point2) < allowed_distance:
-        print("Colliding")
+        return(True)
+    else:
+        return(False)
 
 player = GameObject(10, 10, id="player")
-box = GameObject(10,10, id="test-box", shape="box", color=MINT)
+box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
 GameObjects = [player, box]
 
 while True: # Main game loop - like Unity's "update" void thing.
@@ -115,6 +133,12 @@ while True: # Main game loop - like Unity's "update" void thing.
     PlayerMovementHandler()
     for Obj in GameObjects:
         Rigidbody(Obj)
+    for Obj1 in GameObjects:
+        for Obj2 in GameObjects:
+            if(not Obj1 == Obj2):
+                if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
+                    Obj1.inCollision = True
+                    Obj1.collider = Obj2
 
     pygame.display.update()
     
