@@ -90,8 +90,8 @@ def PlayerMovementHandler():
     # Moves the picked-up object to the player's centre.
     if(type(player.collider) == type(player)):
         if(player.collider.isHeld):
-            player.collider.x = player.x - player.collider.x_size/2
-            player.collider.y = player.y - player.collider.y_size/2
+            player.collider.x = player.x
+            player.collider.y = player.y
     
     pygame.draw.circle(DISPLAYSURF, MINT, CoordinatesToScreen(player), 10, 3)
 
@@ -156,5 +156,7 @@ while True: # Main game loop - like Unity's "update" void thing.
                 # Grabbing boxes? Lovely!
                 if(event.key == pygame.K_g):
                     player.collider.isHeld = not player.collider.isHeld
+                    print(player.collider.isHeld)
                     if(not player.collider.isHeld):
                         player.collider = None
+                        print(player)

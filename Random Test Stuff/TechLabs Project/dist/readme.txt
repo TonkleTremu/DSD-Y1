@@ -1,1 +1,0 @@
-rooms.json stores all data. By default, it contains a test room. You can delete it and replace it with rooms more suited to your company's purpose.
