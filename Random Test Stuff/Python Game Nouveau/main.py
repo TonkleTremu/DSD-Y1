@@ -9,17 +9,28 @@ res_x = 400
 res_y = 300
 
 # Global Constants
-WHITE = (255,255,255)
-BLACK = (0,0,0)
+TICK_RATE = 180
+
+# Colours
+PURE_WHITE = (255,255,255)
+PURE_BLACK = (0,0,0)
+RED = (250,5,5)
+GREEN = (5,250,5)
+FAUX_GREEN = (5,140,70)
+NIGHT_SKY_BLUE = (10,20,140)
+LAVENDER = (135,110,170)
+BLUE = (5,5,250)
 MINT = (61, 255, 171)
+GRAY = (124,125,127)
+BROWN = (87,54,0)
 
 # Setup stuff. Should be mostly self-explanatory.
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
 pygame.display.set_caption("Test")
 fpsClock = pygame.time.Clock()
-worldSizeX = 100
-worldSizeY = 100
+worldSizeX = 300
+worldSizeY = 300
 
 
 @dataclass
@@ -100,7 +111,7 @@ def Rigidbody(Obj: GameObject):
     if(id not in special_cases):
         if(Obj.shape == "box"):
             x,y = CoordinatesToScreen(Obj)
-            box_rect = Rect(x, y, Obj.x_size, Obj.y_size)
+            box_rect = Rect(x-Obj.x_size/2, y-Obj.x_size/2, Obj.x_size, Obj.y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
             pygame.draw.circle(DISPLAYSURF, (255,0,0), (x,y), 1, 1)
 
@@ -121,20 +132,28 @@ def CompareCoordinates(Obj1, Obj2, allowed_distance):
         return(False)
 
 player = GameObject(10, 10, id="player")
-box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
-box2 = GameObject(10,10, id="test-box2", shape="box", color=WHITE, x=30, y=30)
+box = GameObject(10,10, id="test-box", shape="box", color=GREEN, x=50, y=50)
+box2 = GameObject(10,10, id="test-box2", shape="box", color=BROWN, x=30, y=30)
 GameObjects = [player, box, box2]
 
 while True: # Main game loop - like Unity's "update" void thing.
-    DISPLAYSURF.fill(BLACK)
+    DISPLAYSURF.fill(NIGHT_SKY_BLUE)
 
     PlayerMovementHandler()
+    random.shuffle(GameObjects)
     for Obj in GameObjects:
         Rigidbody(Obj)
+        try:
+            if(not(CompareCoordinates(Obj, Obj.collider, Obj.x_size/2))):
+                        Obj.inCollision = False
+                        Obj.collider.isHeld = False
+                        Obj.collider = None
+        except:
+            pass
     for Obj1 in GameObjects:
         for Obj2 in GameObjects:
             if(not Obj1 == Obj2):
-                if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player" and not Obj1.collider):
+                if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
                     Obj1.inCollision = True
                     Obj1.collider = Obj2
 
@@ -145,7 +164,7 @@ while True: # Main game loop - like Unity's "update" void thing.
         pygame.image.save(DISPLAYSURF, "screenshot.png")
 
             
-    fpsClock.tick(60)
+    fpsClock.tick(TICK_RATE)
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -156,7 +175,5 @@ while True: # Main game loop - like Unity's "update" void thing.
                 # Grabbing boxes? Lovely!
                 if(event.key == pygame.K_g):
                     player.collider.isHeld = not player.collider.isHeld
-                    print(player.collider.isHeld)
-                    if(not player.collider.isHeld):
-                        player.collider = None
-                        print(player)
+                if(event.key == pygame.K_z):
+                    print(player.collider)
