@@ -14,6 +14,7 @@ TICK_RATE = 60
 # Colours
 PURE_WHITE = (255,255,255)
 PURE_BLACK = (0,0,0)
+PURE_RED = (255,0,0)
 RED = (250,5,5)
 GREEN = (5,250,5)
 FAUX_GREEN = (5,140,70)
@@ -23,6 +24,7 @@ BLUE = (5,5,250)
 MINT = (61, 255, 171)
 GRAY = (124,125,127)
 BROWN = (87,54,0)
+DELICIOUS_BLUE = (26,251,255)
 
 # Setup stuff. Should be mostly self-explanatory.
 pygame.init()
@@ -44,7 +46,7 @@ class GameObject:
     x: Optional[float] = 0 
     y: Optional[float] = 0
 
-    color: Optional[tuple] = (0,0,0) # The object's color. Only used if it is a basic algorithmic shape.
+    color: Optional[tuple] = PURE_BLACK # The object's color. Only used if it is a basic algorithmic shape.
     shape: Optional[str] = "circle" # The object's shape. If a sprite is supplied, that will be used instead.
     sprite: Optional[str] = "sprites/error.png" # The object's sprite. If left blank, a shape will be used instead.
 
@@ -54,9 +56,8 @@ class GameObject:
     vel_y: Optional[float] = 0
 
     # Collision Stuff.
-    inCollision: Optional[bool] = False
+    holding: Optional[dataclass] = None
     collider: Optional[dataclass] = None
-    isHeld: Optional[bool] = False
 
 def PlayerMovementHandler():
     '''Handles player inputs and such.'''
@@ -99,12 +100,11 @@ def PlayerMovementHandler():
         player.y = BorderY
     
     # Moves the picked-up object to the player's centre.
-    if(type(player.collider) == type(player)):
-        if(player.collider.isHeld):
-            player.collider.x = player.x
-            player.collider.y = player.y
+    if(player.holding != None):
+        player.holding.x = player.x
+        player.holding.y = player.y
     
-    pygame.draw.circle(DISPLAYSURF, MINT, CoordinatesToScreen(player), 10, 3)
+    pygame.draw.circle(DISPLAYSURF, GRAY, CoordinatesToScreen(player), 10, 3)
 
 def Rigidbody(Obj: GameObject):
     special_cases = ["player"]
@@ -113,7 +113,7 @@ def Rigidbody(Obj: GameObject):
             x,y = CoordinatesToScreen(Obj)
             box_rect = Rect(x-Obj.x_size/2, y-Obj.x_size/2, Obj.x_size, Obj.y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
-            pygame.draw.circle(DISPLAYSURF, (255,0,0), (x,y), 1, 1)
+            pygame.draw.circle(DISPLAYSURF, PURE_RED, (x,y), 1, 1)
 
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
@@ -130,10 +130,19 @@ def CompareCoordinates(Obj1, Obj2, allowed_distance):
         return(True)
     else:
         return(False)
+    
+def CheckForID(id):
+    '''Checks every GameObject to see if any of them match a given ID.'''
+    FoundMatch = None
+    for Obj in GameObjects:
+        if(Obj.id == id):
+            FoundMatch = Obj
+            break
+    return(FoundMatch)
 
 player = GameObject(10, 10, id="player")
-box = GameObject(10,10, id="test-box", shape="box", color=GREEN, x=50, y=50)
-box2 = GameObject(10,10, id="test-box2", shape="box", color=BROWN, x=30, y=30)
+box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
+box2 = GameObject(10,10, id="test-box2", shape="box", color=DELICIOUS_BLUE, x=30, y=30)
 GameObjects = [player, box, box2]
 
 while True: # Main game loop - like Unity's "update" void thing.
@@ -145,8 +154,6 @@ while True: # Main game loop - like Unity's "update" void thing.
         Rigidbody(Obj)
         try:
             if(not(CompareCoordinates(Obj, Obj.collider, Obj.x_size/2))):
-                        Obj.inCollision = False
-                        Obj.collider.isHeld = False
                         Obj.collider = None
         except:
             pass
@@ -154,8 +161,9 @@ while True: # Main game loop - like Unity's "update" void thing.
         for Obj2 in GameObjects:
             if(not Obj1 == Obj2):
                 if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
-                    Obj1.inCollision = True
                     Obj1.collider = Obj2
+    print(CheckForID("player"))
+    print(CheckForID("fish"))
 
     pygame.display.update()
     
@@ -171,9 +179,11 @@ while True: # Main game loop - like Unity's "update" void thing.
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if(type(player.collider) == type(player)):
-                # Grabbing boxes? Lovely!
-                if(event.key == pygame.K_g):
-                    player.collider.isHeld = not player.collider.isHeld
-                if(event.key == pygame.K_z):
-                    print(player.collider)
+            # Grabbing boxes? Lovely!
+            if(event.key == pygame.K_g):
+                if(player.holding == None):
+                    player.holding = player.collider
+                else:
+                   player.holding = None
+            if(event.key == pygame.K_z):
+                print(player.collider)
