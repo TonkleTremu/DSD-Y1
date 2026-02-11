@@ -9,7 +9,7 @@ res_x = 400
 res_y = 300
 
 # Global Constants
-TICK_RATE = 180
+TICK_RATE = 60
 
 # Colours
 PURE_WHITE = (255,255,255)
@@ -29,8 +29,8 @@ pygame.init()
 DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
 pygame.display.set_caption("Test")
 fpsClock = pygame.time.Clock()
-worldSizeX = 300
-worldSizeY = 300
+worldSizeX = 100
+worldSizeY = 100
 
 
 @dataclass
