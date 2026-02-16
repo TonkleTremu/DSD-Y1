@@ -1,4 +1,4 @@
-import pygame, sys, random, math
+import pygame, sys, random, math, datetime
 from pygame.locals import *
 from dataclasses import dataclass, fields
 from typing import Optional
@@ -140,6 +140,15 @@ def CheckForID(id):
             break
     return(FoundMatch)
 
+def WriteLog():
+    '''Writes a log, containing a lot of runtime data, such as each GameObject.'''
+    with open("last.log", "+w") as log:
+        log.write("--------------------\nPlayer Details:\n\n")
+        log.write(f"Player Collider: {str(player.collider)}\n")
+        log.write("\n--------------------\nAll GameObjects:\n\n")
+        for x in GameObjects:
+            log.write(f"{str(x.id)}: {str(x)}\n")
+
 player = GameObject(10, 10, id="player")
 box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
 box2 = GameObject(10,10, id="test-box2", shape="box", color=DELICIOUS_BLUE, x=30, y=30)
@@ -162,8 +171,6 @@ while True: # Main game loop - like Unity's "update" void thing.
             if(not Obj1 == Obj2):
                 if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
                     Obj1.collider = Obj2
-    print(CheckForID("player"))
-    print(CheckForID("fish"))
 
     pygame.display.update()
     
@@ -185,5 +192,6 @@ while True: # Main game loop - like Unity's "update" void thing.
                     player.holding = player.collider
                 else:
                    player.holding = None
+            # Provides various debug information.
             if(event.key == pygame.K_z):
-                print(player.collider)
+                WriteLog()
