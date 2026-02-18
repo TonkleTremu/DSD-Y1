@@ -148,11 +148,16 @@ def WriteLog():
         log.write("\n--------------------\nAll GameObjects:\n\n")
         for x in GameObjects:
             log.write(f"{str(x.id)}: {str(x)}\n")
+        
+def SnapToGrid(Obj):
+    Obj.x = round(Obj.x)
+    Obj.y = round(Obj.y)
 
 player = GameObject(10, 10, id="player")
 box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=50)
 box2 = GameObject(10,10, id="test-box2", shape="box", color=DELICIOUS_BLUE, x=30, y=30)
 GameObjects = [player, box, box2]
+Boxes = [box,box2]
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
@@ -171,6 +176,8 @@ while True: # Main game loop - like Unity's "update" void thing.
             if(not Obj1 == Obj2):
                 if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
                     Obj1.collider = Obj2
+    for box in Boxes:
+        SnapToGrid(box)
 
     pygame.display.update()
     

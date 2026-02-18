@@ -1,11 +1,11 @@
 --------------------
 Player Details:
 
-Player Collider: GameObject(x_size=10, y_size=10, id='test-box2', x=28.363370673862473, y=35.532201531310506, color=(26, 251, 255), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None)
+Player Collider: GameObject(x_size=10, y_size=10, id='test-box', x=50, y=50, color=(61, 255, 171), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None)
 
 --------------------
 All GameObjects:
 
+test-box2: GameObject(x_size=10, y_size=10, id='test-box2', x=47, y=50, color=(26, 251, 255), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None)
 test-box: GameObject(x_size=10, y_size=10, id='test-box', x=50, y=50, color=(61, 255, 171), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None)
-player: GameObject(x_size=10, y_size=10, id='player', x=28.363370673862473, y=35.532201531310506, color=(0, 0, 0), shape='circle', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=GameObject(x_size=10, y_size=10, id='test-box2', x=28.363370673862473, y=35.532201531310506, color=(26, 251, 255), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None), collider=GameObject(x_size=10, y_size=10, id='test-box2', x=28.363370673862473, y=35.532201531310506, color=(26, 251, 255), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None))
-test-box2: GameObject(x_size=10, y_size=10, id='test-box2', x=28.363370673862473, y=35.532201531310506, color=(26, 251, 255), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None)
+player: GameObject(x_size=10, y_size=10, id='player', x=46.97244855214879, y=49.86550148216639, color=(0, 0, 0), shape='circle', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=GameObject(x_size=10, y_size=10, id='test-box', x=50, y=50, color=(61, 255, 171), shape='box', sprite='sprites/error.png', speed=1, vel_x=0, vel_y=0, holding=None, collider=None))
