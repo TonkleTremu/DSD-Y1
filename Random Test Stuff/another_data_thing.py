@@ -7,19 +7,19 @@ plt.style.use("classic")
 df = pd.read_csv(FILENAME)
 
 def GamesSales():
-    games = df["Game Title"].unique()
-    total_revenues = df.groupby(["Game Title"])["Total Revenue (£)"].sum()
+    total_revenues = df.groupby(["Game Title"])["Total Revenue (£)"].sum().to_dict()
     plt.xlabel("Game")
     plt.ylabel("Total Revenue")
-    plt.bar(games, total_revenues)
+    plt.grid()
+    plt.bar(total_revenues.keys(), total_revenues.values())
     plt.show()
 
 def GenreSales():
-    games = df["Category"].unique()
-    total_revenues = df.groupby(["Category"])["Total Revenue (£)"].sum()
+    total_revenues = df.groupby(["Category"])["Total Revenue (£)"].sum().to_dict()
     plt.xlabel("Game")
     plt.ylabel("Total Revenue")
-    plt.bar(games, total_revenues)
+    plt.grid()
+    plt.bar(total_revenues.keys(), total_revenues.values())
     plt.show()
 
 
@@ -69,5 +69,7 @@ def MainMenu():
         GameSalesTime()
     elif(choix == "4"):
         GenreSalesTime()
+    elif(choix.lower() == "quit"):
+        exit()
     MainMenu()
 MainMenu()
