@@ -14,8 +14,8 @@ def menu():
     while flag:
         print("###############################################")
         print("Welcome! Please choose an option from the list")
-        print("1. Show total sales for a specific item") 
-        print("2. ")
+        print("1. Show total sales for a specific item.") 
+        print("2. View total/average sales for all items.")
 
         main_menu_choice = input("Please enter the number of your choice (1-2): ")
 
@@ -161,3 +161,4 @@ elif main_menu == 2: # Finds the highest total and average product. Due to basic
 
 else:
     print('This part of the program is still under development, or an invalid option was entered.')
+
