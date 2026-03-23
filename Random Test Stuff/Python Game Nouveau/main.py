@@ -114,7 +114,7 @@ def Rigidbody(Obj: GameObject):
             box_rect = Rect(x-Obj.x_size/2, y-Obj.x_size/2, Obj.x_size, Obj.y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
             pygame.draw.circle(DISPLAYSURF, PURE_RED, (x,y), 1, 1)
-
+ 
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
     ScalarX = DISPLAYSURF.get_width() / worldSizeX
