@@ -1,12 +1,9 @@
 # It's spelt with no 'e' because that's cool.
-import RevLib
-import random
-import time
-import webbrowser
+import RevLib, random, time, webbrowser
 
 def AskQuestion(askedquestions): # Pulls a random question from the library, and asks the user it. "askedquestions" counts up until it gets to 5, then an intermission starts.
     question = random.choice(list(RevLib.OpenEnd.items())) # A random question is pulled from the "RevLib" library.
-    inputanswer = input(f"{question[0]}\n").lower() # A response to the question is taken from the user.
+    inputanswer = input(f"\n{question[0]}\n").lower() # A response to the question is taken from the user.
     answers = question[1][1]
     response = False
     for answer in answers: # Checks if the user's answer is close enough to any of the acceptable answers, using Lev().
@@ -41,7 +38,7 @@ def Intermissioning(): # Creates an "intermission". Some random silly stuff to m
     elif(Choix == 4):
         print("This program uses something called Levenshtein distance. It's really cool! Here, I'll open it for you:")
         time.sleep(4)
-        webbrowser.open("https://www.google.com/search?q=levenshtein+distance/") # This should open in your native browser, such as Chrome or Opera.
+        webbrowser.open("https://www.google.com/search?q=levenshtein+distance/") # This should open in your native browser, such as Chrome or Opera. Hopefully not Microsoft.
         time.sleep(7)
     elif(Choix == 5):
         print("Hey, wanna see me waste your time?") # I've never actually had the patience to test if this one works or not.
