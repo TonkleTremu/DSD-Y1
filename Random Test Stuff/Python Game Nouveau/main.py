@@ -168,7 +168,7 @@ while True: # Main game loop - like Unity's "update" void thing.
         Rigidbody(Obj)
         try:
             if(not(CompareCoordinates(Obj, Obj.collider, Obj.x_size/2))):
-                        Obj.collider = None
+                Obj.collider = None
         except:
             pass
     for Obj1 in GameObjects:
