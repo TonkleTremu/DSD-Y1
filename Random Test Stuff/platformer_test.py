@@ -3,6 +3,8 @@ from pygame.locals import *
 from dataclasses import dataclass, fields
 from typing import Optional
 
+# Set to false for distributions.
+DEBUG = True
 
 # Global Variables
 res_x = 400
@@ -26,6 +28,7 @@ MINT = (61, 255, 171)
 GRAY = (124,125,127)
 BROWN = (87,54,0)
 DELICIOUS_BLUE = (26,251,255)
+CRIMSON = (100, 5, 5)
 
 # Setup stuff. Should be mostly self-explanatory.
 pygame.init()
@@ -57,6 +60,7 @@ class GameObject:
     vel_y: Optional[float] = 0
     isGrounded: Optional[float] = True
     isGround: Optional[float] = False
+    isHostile: Optional[float] = False
 
     # Collision Stuff.
     holding: Optional[dataclass] = None
@@ -64,7 +68,6 @@ class GameObject:
 
 def PlayerMovementHandler():
     '''Handles player inputs and such.'''
-    BorderX = 0
     BorderY = 0
 
     try:
@@ -107,17 +110,6 @@ def PlayerMovementHandler():
     if(player.isGrounded == False):
         player.y += player.vel_y / acceleration
         player.vel_y -= player.vel_y / deceleration + GRAVITY
-        
-
-    # When in wall teleport to other wall.
-    if(player.x < BorderX):
-        player.x = worldSizeX - BorderX
-    if(player.x > worldSizeX - BorderX):
-        player.x = BorderX
-    if(player.y < BorderY):
-        player.y = BorderY
-    if(player.y > worldSizeY - BorderY):
-        player.y = worldSizeY - BorderY
     
     # Moves the picked-up object to the player's centre.
     if(player.holding != None):
@@ -136,7 +128,10 @@ def Rigidbody(Obj: GameObject):
             pygame.draw.circle(DISPLAYSURF, PURE_RED, (x,y), 1, 1)
         elif(Obj.shape == "circle"):
             x,y = CoordinatesToScreen(Obj)
-            pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), Obj.x_size/2)
+            if(Obj.y > Obj.x):
+                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), Obj.x_size/2)
+            else:
+                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), Obj.y_size/2)
 
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
@@ -153,6 +148,20 @@ def CompareCoordinates(Obj1, Obj2, allowed_distance):
         return(True)
     else:
         return(False)
+    
+def CheckBounds(Obj):
+    BorderX = 0
+    BorderY = 0
+
+    # When in wall teleport to other wall.
+    if(Obj.x < BorderX):
+        Obj.x = worldSizeX - BorderX
+    if(Obj.x > worldSizeX - BorderX):
+        Obj.x = BorderX
+    if(Obj.y < BorderY):
+        Obj.y = BorderY
+    if(Obj.y > worldSizeY - BorderY):
+        Obj.y = worldSizeY - BorderY
     
 def CheckForID(id):
     '''Checks every GameObject to see if any of them match a given ID.'''
@@ -187,6 +196,15 @@ def GenNewGameObject():
     GameObjects.append(genned_go)
     Boxes.append(genned_go)
 
+def GenNewArrow():
+    global GameObjects
+    this_id = random.randint(-2147483647,2147483647)
+    genned_arrow = GameObject(50,10, id="arrow", shape="box", color=CRIMSON, x=worldSizeX, y=worldSizeY, isGround=False, isHostile=True)
+    GameObjects.append(genned_arrow)
+
+def MoveArrow(arrow):
+    arrow.x += 1
+
 def MoveBox(tbox):
     tbox.x += random.random() * random.choice([-1,1])
     tbox.y += random.random() * random.choice([-1,1])
@@ -197,8 +215,8 @@ box2 = GameObject(10,10, id="test-box2", shape="circle", color=DELICIOUS_BLUE, x
 GameObjects = [player, box, box2]
 Boxes = [box,box2]
 
-for x in range(1,250):
-    GenNewGameObject()
+#for x in range(1,250):
+    #GenNewGameObject()
 
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
@@ -207,10 +225,14 @@ while True: # Main game loop - like Unity's "update" void thing.
     random.shuffle(GameObjects)
     for Obj in GameObjects:
         Rigidbody(Obj)
-        MoveBox(Obj)
+        CheckBounds(Obj)
+        if(Obj.id not in ["player", "arrow"]):
+            MoveBox(Obj)
+        if(Obj.id == "arrow"):
+            MoveArrow(Obj)
         try:
             if(not(CompareCoordinates(Obj, Obj.collider, Obj.x_size/2))):
-                        Obj.collider = None
+                Obj.collider = None
         except:
             pass
     for Obj1 in GameObjects:
@@ -218,6 +240,8 @@ while True: # Main game loop - like Unity's "update" void thing.
             if(not Obj1 == Obj2):
                 if(CompareCoordinates(Obj1, Obj2, Obj1.x_size/2) and Obj1.id == "player"):
                     Obj1.collider = Obj2
+                    if(Obj1.id == "arrow" or Obj2.id == "arrow"):
+                        pygame.quit()
     for box in Boxes:
         SnapToGrid(box)
 
@@ -241,6 +265,9 @@ while True: # Main game loop - like Unity's "update" void thing.
                     player.holding = player.collider
                 else:
                    player.holding = None
-            # Provides various debug information.
-            if(event.key == pygame.K_z):
-                WriteLog()
+            if(DEBUG):
+                # Provides various debug information.
+                if(event.key == pygame.K_z):
+                    WriteLog()
+                if(event.key == pygame.K_p):
+                    GenNewArrow()
