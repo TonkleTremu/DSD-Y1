@@ -5,7 +5,7 @@ plt.style.use("classic")
 
 FILENAME = "Task4a_RetailX_data.csv"
 
-#Outputs the main menu and checks the user input
+# Outputs the main menu and checks the user input.
 def main_menu():
     flag = True
 
@@ -28,8 +28,8 @@ def main_menu():
 
     return int(choice)
 
-#Generates submenu of available product codes and allows user to select a product to view
-def get_product_id ():
+# Generates submenu of available product codes and allows user to select a product to view.
+def get_product_id():
 
     df = pd.read_csv(FILENAME)
 
@@ -62,8 +62,8 @@ def get_product_id ():
     print("You have selected product id:",product_ID)
     return product_ID
 
-#Generates submenu of available categories and allows user to select a product to view
-def get_category ():
+# Generates submenu of available categories and allows user to select a product to view.
+def get_category():
 
     df = pd.read_csv(FILENAME)
 
@@ -96,7 +96,7 @@ def get_category ():
     print("You have selected category:",category)
     return category
 
-#gets and converts user input from string to date format
+# Gets and converts user input from string to date format.
 def get_date(start_end):
     
     flag = True
@@ -114,7 +114,7 @@ def get_date(start_end):
     
     return date
 
-#extracts data based on product ID within a user specified date range.
+# Extracts data based on product ID within a user specified date range.
 def get_data_by_ID_and_date(product_id, start_date, end_date):
     all_data = pd.read_csv(FILENAME)
     product_data = all_data.loc[all_data["Product ID"] == product_id].copy()
@@ -130,7 +130,7 @@ def get_data_by_ID_and_date(product_id, start_date, end_date):
 
     return extracted_data
 
-#extracts data based on category within a user specified date range.
+# Extracts data based on category within a user specified date range.
 def get_data_by_category_and_date(category, start_date, end_date):
     all_data = pd.read_csv(FILENAME)
     product_data = all_data.loc[all_data["Category"] == category].copy()
@@ -155,7 +155,7 @@ def get_data_by_category_and_date(category, start_date, end_date):
 
     return extracted_data
 
-#generates a total of the number of items sold for the extracted data
+# Generates a total of the number of items sold for the extracted data.
 def calculate_total_sale (date_ID, product_id, start_date, end_date):
     total_sales = date_ID["Qty Sold"].sum()
     print('The total number of sales for product {}, between {} and {} was: {}'.format(product_id, start_date, end_date, total_sales))
