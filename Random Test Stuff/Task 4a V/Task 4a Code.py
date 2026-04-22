@@ -1,4 +1,7 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+
+plt.style.use("classic")
 
 FILENAME = "Task4a_RetailX_data.csv"
 
@@ -14,6 +17,7 @@ def main_menu():
         print("")
         print("--------------------- Main Menu --------------------- ")
         print("1. Total sales by product")
+        print("2. Total sales by category")
 
         choice = input('Enter your number selection here: ')
 
@@ -58,6 +62,40 @@ def get_product_id ():
     print("You have selected product id:",product_ID)
     return product_ID
 
+#Generates submenu of available categories and allows user to select a product to view
+def get_category ():
+
+    df = pd.read_csv(FILENAME)
+
+    categories = df["Category"].unique().tolist()
+
+    flag = True
+
+    while flag:
+
+        print("-"*66)
+        print("---------- RetailX Sales Analysis Module ------------- ")
+        print("-"*66)
+        print("")
+        print("--------------------- Main Menu --------------------- ")
+        print("Select a product code:")
+        for i in range(len(categories)):
+            print(i+1, " ", categories[i])
+
+        selection = input('Enter your number selection here: ')
+
+        if selection.isdigit():
+            selection = int(selection)
+            flag = False
+        else:
+            flag = True
+
+        
+        category = categories[selection -1]
+   
+    print("You have selected category:",category)
+    return category
+
 #gets and converts user input from string to date format
 def get_date(start_end):
     
@@ -92,6 +130,31 @@ def get_data_by_ID_and_date(product_id, start_date, end_date):
 
     return extracted_data
 
+#extracts data based on category within a user specified date range.
+def get_data_by_category_and_date(category, start_date, end_date):
+    all_data = pd.read_csv(FILENAME)
+    product_data = all_data.loc[all_data["Category"] == category].copy()
+
+    product_data["Date"] = pd.to_datetime(product_data["Date"], format="%d/%m/%Y", errors="raise")
+    
+    date_range = (product_data["Date"] >= pd.to_datetime(start_date, format="%d/%m/%Y")) & \
+                  (product_data["Date"] <= pd.to_datetime(end_date,format="%d/%m/%Y" ))
+    print(product_data["Date"].loc[date_range])
+    extracted_data = product_data.loc[date_range]
+
+    dates = []
+    quantities = []
+    for date in product_data.loc[date_range]["Date"].unique():
+        dates.append(date)
+        quantities.append(extracted_data.loc[extracted_data["Date"] == date]["Qty Sold"].sum())
+    
+    plt.xlabel("Date")
+    plt.ylabel("Sales")
+    plt.bar(dates, quantities)
+    plt.show()
+
+    return extracted_data
+
 #generates a total of the number of items sold for the extracted data
 def calculate_total_sale (date_ID, product_id, start_date, end_date):
     total_sales = date_ID["Qty Sold"].sum()
@@ -107,3 +170,9 @@ if main_menu_choice == 1:
     date_ID = get_data_by_ID_and_date(product_id, start_date, end_date)
     calculate_total_sale (date_ID, product_id, start_date, end_date)
 
+elif main_menu_choice == 2:
+    category = get_category()
+    start_date = get_date("start")
+    end_date = get_date("end")
+    date_ID = get_data_by_category_and_date(category, start_date, end_date)
+    calculate_total_sale (date_ID, category, start_date, end_date)
