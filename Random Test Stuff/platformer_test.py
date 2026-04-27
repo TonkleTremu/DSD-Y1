@@ -214,8 +214,8 @@ def MoveBox(tbox):
     tbox.y += random.random() * random.choice([-1,1])
 
 player = GameObject(10, 10, id="player")
-box = GameObject(10,10, id="test-box", shape="circle", color=MINT, x=50, y=70, isGround=True)
-box2 = GameObject(10,10, id="test-box2", shape="circle", color=DELICIOUS_BLUE, x=30, y=30, isGround=True)
+box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=70, isGround=True)
+box2 = GameObject(10,10, id="test-box2", shape="box", color=DELICIOUS_BLUE, x=30, y=30, isGround=True)
 GameObjects = [player, box, box2]
 Boxes = [box,box2]
 
