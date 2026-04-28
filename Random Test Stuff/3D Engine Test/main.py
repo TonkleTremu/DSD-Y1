@@ -31,12 +31,56 @@ CRIMSON = (100, 5, 5)
 res_x = 400
 res_y = 300
 
-# "Display Surface" - this is where all the stuff is rendered to. 
-DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
+CubeVertices = [
+    {"x":  0.25, "y":  0.25, "z":  0.25},
+    {"x": -0.25, "y":  0.25, "z":  0.25},
+    {"x": -0.25, "y": -0.25, "z":  0.25},
+    {"x":  0.25, "y": -0.25, "z":  0.25},
 
-@dataclass
-class GameObject:
-    # The x and y size values. Used for physics-based collisions.
-    size: tuple
-    position: Optional[tuple]
-    color: Optional[tuple] = PURE_WHITE
+    {"x":  0.25, "y":  0.25, "z": -0.25},
+    {"x": -0.25, "y":  0.25, "z": -0.25},
+    {"x": -0.25, "y": -0.25, "z": -0.25},
+    {"x":  0.25, "y": -0.25, "z": -0.25}]
+
+CubeLinks = [
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [0, 4],
+    [1, 5],
+    [2, 6],
+    [3, 7]
+]
+
+# Functions.
+
+def DebugPoint(x,y):
+    box_rect = Rect(x-1, y-1, x+1, y+1)
+    pygame.draw.rect(DISPLAYSURF, RED, box_rect)
+
+def FixToScreen(x,y):
+    x = (x+1)/2*DISPLAYSURF.get_width()
+    y = (y+1)/2*DISPLAYSURF.get_height()
+    return(x,y)
+
+# Setup stuff.
+pygame.init()
+DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
+pygame.display.set_caption("3D Test")
+fpsClock = pygame.time.Clock()
+
+while True: # Main game loop - like Unity's "update" void thing.
+    DISPLAYSURF.fill(NIGHT_SKY_BLUE)
+    print(FixToScreen(0,0))
+    DebugPoint()
+    
+    # This takes a screenshot.
+    if(pygame.key.get_pressed()[K_F2]):
+        pygame.image.save(DISPLAYSURF, "screenshot.png")
+
+    pygame.display.update()
+    fpsClock.tick(TICK_RATE)
+
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            pygame.quit()
+            sys.exit()
