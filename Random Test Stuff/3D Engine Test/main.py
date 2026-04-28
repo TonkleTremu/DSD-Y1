@@ -32,15 +32,16 @@ res_x = 400
 res_y = 300
 
 CubeVertices = [
-    {"x":  0.25, "y":  0.25, "z":  0.25},
-    {"x": -0.25, "y":  0.25, "z":  0.25},
-    {"x": -0.25, "y": -0.25, "z":  0.25},
-    {"x":  0.25, "y": -0.25, "z":  0.25},
+    (0.25, 0.25, 1),
+    (-0.25, 0.25, 1),
+    (-0.25, -0.25, 1),
+    (0.25, -0.25, 1),
 
-    {"x":  0.25, "y":  0.25, "z": -0.25},
-    {"x": -0.25, "y":  0.25, "z": -0.25},
-    {"x": -0.25, "y": -0.25, "z": -0.25},
-    {"x":  0.25, "y": -0.25, "z": -0.25}]
+    (0.25, 0.25, 1.25),
+    (-0.25, 0.25, 1.25),
+    (-0.25, -0.25, 1.25),
+    (0.25, -0.25, 1.25)
+    ]
 
 CubeLinks = [
     [0, 1, 2, 3],
@@ -53,8 +54,10 @@ CubeLinks = [
 
 # Functions.
 
-def DebugPoint(x,y):
-    box_rect = Rect(x-1, y-1, x+1, y+1)
+def DebugPoint(point):
+    x = point[0]
+    y = point[1]
+    box_rect = Rect(x, y, 10, 10)
     pygame.draw.rect(DISPLAYSURF, RED, box_rect)
 
 def FixToScreen(x,y):
@@ -62,16 +65,27 @@ def FixToScreen(x,y):
     y = (y+1)/2*DISPLAYSURF.get_height()
     return(x,y)
 
+def Project(point):
+    # x = x/z
+    x = point[0]/point[2]
+    y = point[1]/point[2]
+    return(x,y)
+
+
 # Setup stuff.
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
 pygame.display.set_caption("3D Test")
 fpsClock = pygame.time.Clock()
 
+z = 0.1
+
 while True: # Main game loop - like Unity's "update" void thing.
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
-    print(FixToScreen(0,0))
-    DebugPoint()
+    for point in CubeVertices:
+        print(point)
+        DebugPoint(FixToScreen(*Project(point)))
+    z += 0.1
     
     # This takes a screenshot.
     if(pygame.key.get_pressed()[K_F2]):
