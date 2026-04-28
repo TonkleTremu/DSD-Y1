@@ -121,17 +121,21 @@ def PlayerMovementHandler():
 def Rigidbody(Obj: GameObject):
     special_cases = ["player"]
     if(id not in special_cases):
+        ScalarX = (DISPLAYSURF.get_width() / worldSizeX) / 4
+        ScalarY = (DISPLAYSURF.get_height() / worldSizeY) / 3
+        x_size = Obj.x_size * ScalarX
+        y_size = Obj.y_size * ScalarY
         if(Obj.shape == "box"):
             x,y = CoordinatesToScreen(Obj)
-            box_rect = Rect(x-Obj.x_size/2, y-Obj.x_size/2, Obj.x_size, Obj.y_size)
+            box_rect = Rect(x-x_size/2, y-y_size/2, x_size, y_size)
             pygame.draw.rect(DISPLAYSURF, Obj.color, box_rect)
             pygame.draw.circle(DISPLAYSURF, PURE_RED, (x,y), 1, 1)
         elif(Obj.shape == "circle"):
             x,y = CoordinatesToScreen(Obj)
             if(Obj.y > Obj.x):
-                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), Obj.x_size/2)
+                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), x_size/2)
             else:
-                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), Obj.y_size/2)
+                pygame.draw.circle(DISPLAYSURF, Obj.color, (x,y), y_size/2)
 
 def CoordinatesToScreen(Obj):
     '''Converts a GameObject's co-ordinates to a screen location. Takes the GameObject as a parameter.'''
@@ -210,8 +214,8 @@ def MoveBox(tbox):
     tbox.y += random.random() * random.choice([-1,1])
 
 player = GameObject(10, 10, id="player")
-box = GameObject(10,10, id="test-box", shape="circle", color=MINT, x=50, y=70, isGround=True)
-box2 = GameObject(10,10, id="test-box2", shape="circle", color=DELICIOUS_BLUE, x=30, y=30, isGround=True)
+box = GameObject(10,10, id="test-box", shape="box", color=MINT, x=50, y=70, isGround=True)
+box2 = GameObject(10,10, id="test-box2", shape="box", color=DELICIOUS_BLUE, x=30, y=30, isGround=True)
 GameObjects = [player, box, box2]
 Boxes = [box,box2]
 
