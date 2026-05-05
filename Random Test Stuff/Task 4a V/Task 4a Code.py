@@ -18,6 +18,7 @@ def main_menu():
         print("--------------------- Main Menu --------------------- ")
         print("1. Total sales by product")
         print("2. Total sales by category")
+        print("3. Total profit by product")
 
         choice = input('Enter your number selection here: ')
 
@@ -115,7 +116,7 @@ def get_date(start_end):
     return date
 
 # Extracts data based on product ID within a user specified date range.
-def get_data_by_ID_and_date(product_id, start_date, end_date):
+def get_data_by_ID_and_date(product_id, start_date, end_date, qty):
     all_data = pd.read_csv(FILENAME)
     product_data = all_data.loc[all_data["Product ID"] == product_id].copy()
 
@@ -126,9 +127,31 @@ def get_data_by_ID_and_date(product_id, start_date, end_date):
     
     extracted_data = product_data.loc[date_range]
 
-
-
+    if(qty):
+        dates = []
+        quantities = []
+        for date in product_data.loc[date_range]["Date"].unique():
+            dates.append(date)
+            quantities.append(extracted_data.loc[extracted_data["Date"] == date]["Qty Sold"].sum())
+        
+        plt.xlabel("Date")
+        plt.ylabel("Sales")
+        plt.bar(dates, quantities)
+        plt.show()
+    else:
+        dates = []
+        quantities = []
+        for date in product_data.loc[date_range]["Date"].unique():
+            dates.append(date)
+            quantities.append(extracted_data.loc[extracted_data["Date"] == date]["Sales Price"].sum())
+        
+        plt.xlabel("Date")
+        plt.ylabel("Sales")
+        plt.bar(dates, quantities)
+        plt.show()
+    
     return extracted_data
+
 
 # Extracts data based on category within a user specified date range.
 def get_data_by_category_and_date(category, start_date, end_date):
@@ -152,13 +175,17 @@ def get_data_by_category_and_date(category, start_date, end_date):
     plt.ylabel("Sales")
     plt.bar(dates, quantities)
     plt.show()
-
+    
     return extracted_data
 
 # Generates a total of the number of items sold for the extracted data.
 def calculate_total_sale (date_ID, product_id, start_date, end_date):
     total_sales = date_ID["Qty Sold"].sum()
     print('The total number of sales for product {}, between {} and {} was: {}'.format(product_id, start_date, end_date, total_sales))
+
+def calculate_total_profit (date_ID, product_id, start_date, end_date):
+    total_sales = date_ID["Sales Price"].sum()
+    print('The total profit for product {}, between {} and {} was: {}'.format(product_id, start_date, end_date, total_sales))
 
 
 main_menu_choice = main_menu()
@@ -167,7 +194,7 @@ if main_menu_choice == 1:
     product_id = get_product_id()
     start_date = get_date("start")
     end_date = get_date("end")
-    date_ID = get_data_by_ID_and_date(product_id, start_date, end_date)
+    date_ID = get_data_by_ID_and_date(product_id, start_date, end_date, True)
     calculate_total_sale (date_ID, product_id, start_date, end_date)
 
 elif main_menu_choice == 2:
@@ -176,3 +203,10 @@ elif main_menu_choice == 2:
     end_date = get_date("end")
     date_ID = get_data_by_category_and_date(category, start_date, end_date)
     calculate_total_sale (date_ID, category, start_date, end_date)
+
+elif main_menu_choice == 3:
+    product_id = get_product_id()
+    start_date = get_date("start")
+    end_date = get_date("end")
+    date_ID = get_data_by_ID_and_date(product_id, start_date, end_date, False)
+    calculate_total_profit (date_ID, product_id, start_date, end_date)

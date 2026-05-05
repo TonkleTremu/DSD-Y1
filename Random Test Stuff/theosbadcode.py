@@ -1,8 +1,6 @@
-def yamal():
-    print(True)
+x = float(input())
 
-my_dict = {
-    1: yamal
-}
+if(round(x, 1) == x):
+    x = str(x)+"0"
 
-my_dict[1]()
+print(x)
