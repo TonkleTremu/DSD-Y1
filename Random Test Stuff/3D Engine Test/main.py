@@ -31,6 +31,7 @@ SUNSET = (250, 100, 10)
 # Global Variables
 res_x = 400
 res_y = 300
+nearclip = -10
 
 CubeVertices = [
     (0.25, 0.25, 0.25),
@@ -45,6 +46,48 @@ CubeVertices = [
     ]
 
 CubeLinks = [
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [0, 4],
+    [1, 5],
+    [2, 6],
+    [3, 7]
+]
+
+CubeVertices2 = [
+    (0.75, 0.75, 0.75),
+    (0.25, 0.75, 0.75),
+    (0.25, 0.25, 0.75),
+    (0.75, 0.25, 0.75),
+
+    (0.75, 0.75, 0.25),
+    (0.25, 0.75, 0.25),
+    (0.25, 0.25, 0.25),
+    (0.75, 0.25, 0.25)
+    ]
+
+CubeVertices3 = [
+    (0.75, 1.25, 0.75),
+    (0.25, 1.25, 0.75),
+    (0.25, 0.75, 0.75),
+    (0.75, 0.75, 0.75),
+
+    (0.75, 1.25, 0.25),
+    (0.25, 1.25, 0.25),
+    (0.25, 0.75, 0.25),
+    (0.75, 0.75, 0.25)
+    ]
+
+CubeLink2 = [
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [0, 4],
+    [1, 5],
+    [2, 6],
+    [3, 7]
+]
+
+CubeLink3 = [
     [0, 1, 2, 3],
     [4, 5, 6, 7],
     [0, 4],
@@ -84,12 +127,12 @@ def RotatePoint(point, angle):
     z2 = x*s+z*c
     return((x2,y2,z2))
 
-def DrawLine(p1, p2):
-    pygame.draw.line(DISPLAYSURF, SUNSET, p1, p2, 3)
+def DrawLine(p1, p2, color):
+    pygame.draw.line(DISPLAYSURF, color, p1, p2, 3)
 
 def RenderPoint(point):
     point = RotatePoint(point, rotation)
-    point = (point[0], point[1], point[2]+z)
+    point = (point[0]+x, point[1]+y, point[2]+z)
     return(FixToScreen(*Project(point)))
 
 def DrawFace(face):
@@ -101,22 +144,8 @@ def DrawFace(face):
     except:
         if(DEBUG):
             print("Error rendering model data.")
-    
 
-# Setup stuff.
-pygame.init()
-DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
-pygame.display.set_caption("3D Test")
-fpsClock = pygame.time.Clock()
-
-z = 1
-rotation = 0
-
-while True: # Main game loop - like Unity's "update" void thing.
-    rotation += 2*math.pi*(1/TICK_RATE)
-    DISPLAYSURF.fill(NIGHT_SKY_BLUE)
-    #for point in CubeVertices:
-    
+def RenderCube(CubeLinks, CubeVertices, color):
     for face in CubeLinks:
         maxthing = len(face)
         for i in range(0, maxthing):
@@ -125,9 +154,43 @@ while True: # Main game loop - like Unity's "update" void thing.
                 p2 = CubeVertices[face[(i+1)%len(face)]]
                 p1 = RenderPoint(p1)
                 p2 = RenderPoint(p2)
-                DrawLine(p1,p2)
+                print(p1)
+                if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
+                    DrawLine(p1,p2, color)
             except:
                 pass
+    
+
+# Setup stuff.
+pygame.init()
+DISPLAYSURF = pygame.display.set_mode((res_x, res_y), pygame.RESIZABLE)
+pygame.display.set_caption("3D Test")
+fpsClock = pygame.time.Clock()
+
+x = 0
+y = -1
+z = -1
+rotation = 0
+
+while True: # Main game loop - like Unity's "update" void thing.
+    rotation += 2*math.pi*(1/TICK_RATE)
+    DISPLAYSURF.fill(NIGHT_SKY_BLUE)
+    if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
+        z += 0.1
+    if(pygame.key.get_pressed()[K_DOWN] | pygame.key.get_pressed()[K_s]):
+        z -= 0.1
+    if(pygame.key.get_pressed()[K_SPACE]):
+        y -= 0.1
+    if(pygame.key.get_pressed()[K_LSHIFT]):
+        y += 0.1
+    if(pygame.key.get_pressed()[K_LEFT] | pygame.key.get_pressed()[K_a]):
+        x -= 0.1
+    if(pygame.key.get_pressed()[K_RIGHT] | pygame.key.get_pressed()[K_d]):
+        x += 0.1
+    
+    RenderCube(CubeLinks, CubeVertices, SUNSET)
+    RenderCube(CubeLink2, CubeVertices2, GREEN)
+    RenderCube(CubeLink3, CubeVertices3, RED)
     
     # This takes a screenshot.
     if(pygame.key.get_pressed()[K_F2]):
@@ -141,12 +204,6 @@ while True: # Main game loop - like Unity's "update" void thing.
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if(event.key == pygame.key.get_pressed()[K_UP]):
-                z += 0.1
-                print(z)
-            if(event.key == pygame.key.get_pressed()[K_DOWN]):
-                z -= 0.1
-                print(z)
             if(event.key == pygame.K_COMMA):
                 rotation += 10
             if(event.key == pygame.K_PERIOD):
