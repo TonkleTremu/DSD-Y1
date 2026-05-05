@@ -63,7 +63,6 @@ while True: # Main game loop - like Unity's "update" void thing.
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == KEYDOWN:
             # Grabbing boxes? Lovely!
             if(event.key == pygame.K_g):
                 if(player.holding == None):
