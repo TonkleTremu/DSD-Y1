@@ -26,6 +26,7 @@ GRAY = (124,125,127)
 BROWN = (87,54,0)
 DELICIOUS_BLUE = (26,251,255)
 CRIMSON = (100, 5, 5)
+SUNSET = (250, 100, 10)
 
 # Global Variables
 res_x = 400
@@ -59,6 +60,7 @@ def DebugPoint(point):
     y = point[1]
     box_rect = Rect(x-5, y-5, 10, 10)
     pygame.draw.rect(DISPLAYSURF, RED, box_rect)
+    return(x,y)
 
 def FixToScreen(x,y):
     x = (x+1)/2*DISPLAYSURF.get_width()
@@ -77,10 +79,29 @@ def RotatePoint(point, angle):
     z = point[2]
     c = math.cos(angle)
     s = math.sin(angle)
-    x = x*c-z*s
-    z = x*s+z*c
-    print((x,y,z))
-    return((x,y,z))
+    x2 = x*c-z*s
+    y2 = y
+    z2 = x*s+z*c
+    return((x2,y2,z2))
+
+def DrawLine(p1, p2):
+    pygame.draw.line(DISPLAYSURF, SUNSET, p1, p2, 3)
+
+def RenderPoint(point):
+    point = RotatePoint(point, rotation)
+    point = (point[0], point[1], point[2]+z)
+    return(FixToScreen(*Project(point)))
+
+def DrawFace(face):
+    try:
+        draw_face = []
+        for i in range(0, len(face)):
+            draw_face.append(RenderPoint(CubeVertices[face[i]]))
+        pygame.draw.polygon(DISPLAYSURF, PURE_WHITE, draw_face)
+    except:
+        if(DEBUG):
+            print("Error rendering model data.")
+    
 
 # Setup stuff.
 pygame.init()
@@ -92,12 +113,21 @@ z = 1
 rotation = 0
 
 while True: # Main game loop - like Unity's "update" void thing.
-    rotation += 2*math.pi*(1/100)
+    rotation += 2*math.pi*(1/TICK_RATE)
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
-    for point in CubeVertices:
-        point = RotatePoint(point, rotation)
-        point = (point[0], point[1], point[2]+z)
-        DebugPoint(FixToScreen(*Project(point)))
+    #for point in CubeVertices:
+    
+    for face in CubeLinks:
+        maxthing = len(face)
+        for i in range(0, maxthing):
+            try:
+                p1 = CubeVertices[face[i]]
+                p2 = CubeVertices[face[(i+1)%len(face)]]
+                p1 = RenderPoint(p1)
+                p2 = RenderPoint(p2)
+                DrawLine(p1,p2)
+            except:
+                pass
     
     # This takes a screenshot.
     if(pygame.key.get_pressed()[K_F2]):
@@ -111,10 +141,10 @@ while True: # Main game loop - like Unity's "update" void thing.
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if(event.key == pygame.K_z):
+            if(event.key == pygame.key.get_pressed()[K_UP]):
                 z += 0.1
                 print(z)
-            if(event.key == pygame.K_x):
+            if(event.key == pygame.key.get_pressed()[K_DOWN]):
                 z -= 0.1
                 print(z)
             if(event.key == pygame.K_COMMA):
