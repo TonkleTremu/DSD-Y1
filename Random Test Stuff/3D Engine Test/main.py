@@ -173,7 +173,7 @@ z = -1
 rotation = 0
 
 while True: # Main game loop - like Unity's "update" void thing.
-    rotation += 2*math.pi*(1/TICK_RATE)
+    #rotation += 2*math.pi*(1/TICK_RATE)
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
     if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
         z += 0.1
@@ -187,14 +187,14 @@ while True: # Main game loop - like Unity's "update" void thing.
         x -= 0.1
     if(pygame.key.get_pressed()[K_RIGHT] | pygame.key.get_pressed()[K_d]):
         x += 0.1
+    if(pygame.key.get_pressed()[K_COMMA]):
+        rotation -= 10/360
+    if(pygame.key.get_pressed()[K_PERIOD]):
+        rotation += 10/360
     
     RenderCube(CubeLinks, CubeVertices, SUNSET)
     RenderCube(CubeLink2, CubeVertices2, GREEN)
     RenderCube(CubeLink3, CubeVertices3, RED)
-    
-    # This takes a screenshot.
-    if(pygame.key.get_pressed()[K_F2]):
-        pygame.image.save(DISPLAYSURF, "screenshot.png")
 
     pygame.display.update()
     fpsClock.tick(TICK_RATE)
@@ -204,7 +204,6 @@ while True: # Main game loop - like Unity's "update" void thing.
             pygame.quit()
             sys.exit()
         if event.type == KEYDOWN:
-            if(event.key == pygame.K_COMMA):
-                rotation += 10
-            if(event.key == pygame.K_PERIOD):
-                rotation -= 10
+            if(event.key == pygame.K_F2):
+                pygame.image.save(DISPLAYSURF, "screenshot.png")
+                
