@@ -67,15 +67,15 @@ CubeVertices2 = [
     ]
 
 CubeVertices3 = [
-    (0.75, 1.25, 0.75),
-    (0.25, 1.25, 0.75),
-    (0.25, 0.75, 0.75),
-    (0.75, 0.75, 0.75),
+    (0.75, -1.25, 0.75),
+    (-0.25, -1.25, 0.75),
+    (-0.25, -0.75, 0.75),
+    (0.75, -0.75, 0.75),
 
-    (0.75, 1.25, 0.25),
-    (0.25, 1.25, 0.25),
-    (0.25, 0.75, 0.25),
-    (0.75, 0.75, 0.25)
+    (0.75, -1.25, 0.25),
+    (-0.25, -1.25, 0.25),
+    (-0.25, -0.75, 0.25),
+    (0.75, -0.75, 0.25)
     ]
 
 CubeLink2 = [
@@ -175,6 +175,9 @@ rotation = 0
 while True: # Main game loop - like Unity's "update" void thing.
     #rotation += 2*math.pi*(1/TICK_RATE)
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
+    if(DEBUG):
+        pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
+        pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
     if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
         z += 0.1
     if(pygame.key.get_pressed()[K_DOWN] | pygame.key.get_pressed()[K_s]):
