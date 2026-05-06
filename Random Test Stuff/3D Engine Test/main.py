@@ -160,7 +160,7 @@ rotation = 0
 active_scene = [GameObject(1,1,1,3,3,3), GameObject(0.5,0.5,2,0,-1,3), GameObject(10,15,20,0,1,30)]
 
 while True: # Main game loop - like Unity's "update" void thing.
-    rotation += 2*math.pi*(1/TICK_RATE)
+    #rotation += 2*math.pi*(1/TICK_RATE)
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
     if(debug_mode):
         pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
