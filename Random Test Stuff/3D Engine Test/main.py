@@ -136,7 +136,6 @@ def RenderCube(CubeLinks, CubeVertices, color):
             try:
                 p1 = CubeVertices[face[i]]
                 p2 = CubeVertices[face[(i+1)%len(face)]]
-                print(p1, z)
                 if(p1[2] > z and p2[2] > z):
                     p1 = RenderPoint(p1)
                     p2 = RenderPoint(p2)
@@ -157,7 +156,10 @@ y = -1
 z = -10
 rotation = 0
 
-active_scene = [GameObject(1,1,1,3,3,3), GameObject(0.5,0.5,2,0,-1,3), GameObject(10,15,20,0,1,30)]
+active_scene = []
+
+for x in range(0,100):
+    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
 
 while True: # Main game loop - like Unity's "update" void thing.
     #rotation += 2*math.pi*(1/TICK_RATE)
@@ -196,7 +198,7 @@ while True: # Main game loop - like Unity's "update" void thing.
             sys.exit()
         if event.type == KEYDOWN:
             if(event.key == pygame.K_F2):
-                pygame.image.save(DISPLAYSURF, "screenshot.png")
+                pygame.image.save(DISPLAYSURF, f"screenshot {str(datetime.datetime.now()).replace(":", "")}.png")
             if(event.key == pygame.K_F3):
                 debug_mode = True
                 
