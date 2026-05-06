@@ -200,5 +200,5 @@ while True: # Main game loop - like Unity's "update" void thing.
             if(event.key == pygame.K_F2):
                 pygame.image.save(DISPLAYSURF, f"screenshot {str(datetime.datetime.now()).replace(":", "")}.png")
             if(event.key == pygame.K_F3):
-                debug_mode = True
+                debug_mode = not debug_mode
                 
