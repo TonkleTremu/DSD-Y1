@@ -32,18 +32,25 @@ SUNSET = (250, 100, 10)
 res_x = 400
 res_y = 300
 nearclip = -10
+debug_mode = False
 
-CubeVertices = [
-    (0.25, 0.25, 0.25),
-    (-0.25, 0.25, 0.25),
-    (-0.25, -0.25, 0.25),
-    (0.25, -0.25, 0.25),
+@dataclass
+class GameObject:
+    # The xyz size values. Used for physics-based collisions.
+    x_size: float 
+    y_size: float
+    z_size: float
 
-    (0.25, 0.25, -0.25),
-    (-0.25, 0.25, -0.25),
-    (-0.25, -0.25, -0.25),
-    (0.25, -0.25, -0.25)
-    ]
+    # The xyz location values.
+    x: float
+    y: float
+    z: float
+
+    # The object's color. By default, it is Sunset.
+    color: Optional[tuple] = SUNSET
+
+    # Temporarily stores point data, so the math isn't re-done.
+    point_data: Optional[any] = None
 
 CubeLinks = [
     [0, 1, 2, 3],
@@ -54,49 +61,25 @@ CubeLinks = [
     [3, 7]
 ]
 
-CubeVertices2 = [
-    (0.75, 0.75, 0.75),
-    (0.25, 0.75, 0.75),
-    (0.25, 0.25, 0.75),
-    (0.75, 0.25, 0.75),
-
-    (0.75, 0.75, 0.25),
-    (0.25, 0.75, 0.25),
-    (0.25, 0.25, 0.25),
-    (0.75, 0.25, 0.25)
-    ]
-
-CubeVertices3 = [
-    (0.75, -1.25, 0.75),
-    (-0.25, -1.25, 0.75),
-    (-0.25, -0.75, 0.75),
-    (0.75, -0.75, 0.75),
-
-    (0.75, -1.25, 0.25),
-    (-0.25, -1.25, 0.25),
-    (-0.25, -0.75, 0.25),
-    (0.75, -0.75, 0.25)
-    ]
-
-CubeLink2 = [
-    [0, 1, 2, 3],
-    [4, 5, 6, 7],
-    [0, 4],
-    [1, 5],
-    [2, 6],
-    [3, 7]
-]
-
-CubeLink3 = [
-    [0, 1, 2, 3],
-    [4, 5, 6, 7],
-    [0, 4],
-    [1, 5],
-    [2, 6],
-    [3, 7]
-]
-
 # Functions.
+
+def CubeToPoints(cube: GameObject):
+    base_cube = [
+    (1, 1, 1),
+    (0, 1, 1),
+    (0, 0, 1),
+    (1, 0, 1),
+
+    (1, 1, 0),
+    (0, 1, 0),
+    (0, 0, 0),
+    (1, 0, 0)
+    ]
+    new_cube = []
+    for point in base_cube:
+        new_point = (point[0]*cube.x_size+cube.x, point[1]*cube.y_size+cube.y, point[2]*cube.z_size+cube.z)
+        new_cube.append(new_point)
+    return(new_cube)
 
 def DebugPoint(point):
     x = point[0]
@@ -133,16 +116,17 @@ def DrawLine(p1, p2, color):
 def RenderPoint(point):
     point = RotatePoint(point, rotation)
     point = (point[0]+x, point[1]+y, point[2]+z)
-    return(FixToScreen(*Project(point)))
+    if(point[2] < 0):
+        return(FixToScreen(*Project(point)))
 
 def DrawFace(face):
     try:
         draw_face = []
-        for i in range(0, len(face)):
-            draw_face.append(RenderPoint(CubeVertices[face[i]]))
+        #for i in range(0, len(face)):
+            #draw_face.append(RenderPoint(CubeVertices[face[i]]))
         pygame.draw.polygon(DISPLAYSURF, PURE_WHITE, draw_face)
     except:
-        if(DEBUG):
+        if(debug_mode):
             print("Error rendering model data.")
 
 def RenderCube(CubeLinks, CubeVertices, color):
@@ -152,10 +136,11 @@ def RenderCube(CubeLinks, CubeVertices, color):
             try:
                 p1 = CubeVertices[face[i]]
                 p2 = CubeVertices[face[(i+1)%len(face)]]
-                p1 = RenderPoint(p1)
-                p2 = RenderPoint(p2)
-                print(p1)
-                if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
+                print(p1, z)
+                if(p1[2] > z and p2[2] > z):
+                    p1 = RenderPoint(p1)
+                    p2 = RenderPoint(p2)
+                    #if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
                     DrawLine(p1,p2, color)
             except:
                 pass
@@ -169,13 +154,15 @@ fpsClock = pygame.time.Clock()
 
 x = 0
 y = -1
-z = -1
+z = -10
 rotation = 0
 
+active_scene = [GameObject(1,1,1,3,3,3), GameObject(0.5,0.5,2,0,-1,3), GameObject(10,15,20,0,1,30)]
+
 while True: # Main game loop - like Unity's "update" void thing.
-    #rotation += 2*math.pi*(1/TICK_RATE)
+    rotation += 2*math.pi*(1/TICK_RATE)
     DISPLAYSURF.fill(NIGHT_SKY_BLUE)
-    if(DEBUG):
+    if(debug_mode):
         pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
         pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
     if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
@@ -194,10 +181,11 @@ while True: # Main game loop - like Unity's "update" void thing.
         rotation -= 10/360
     if(pygame.key.get_pressed()[K_PERIOD]):
         rotation += 10/360
-    
-    RenderCube(CubeLinks, CubeVertices, SUNSET)
-    RenderCube(CubeLink2, CubeVertices2, GREEN)
-    RenderCube(CubeLink3, CubeVertices3, RED)
+        
+    for go in active_scene:
+        if(go.point_data == None):
+            go.point_data = CubeToPoints(go)
+        RenderCube(CubeLinks, go.point_data, go.color)
 
     pygame.display.update()
     fpsClock.tick(TICK_RATE)
@@ -209,4 +197,6 @@ while True: # Main game loop - like Unity's "update" void thing.
         if event.type == KEYDOWN:
             if(event.key == pygame.K_F2):
                 pygame.image.save(DISPLAYSURF, "screenshot.png")
+            if(event.key == pygame.K_F3):
+                debug_mode = True
                 
