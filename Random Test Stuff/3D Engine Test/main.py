@@ -77,8 +77,10 @@ def CubeToPoints(cube: GameObject):
     ]
     new_cube = []
     for point in base_cube:
+        print(cube)
         new_point = (point[0]*cube.x_size+cube.x, point[1]*cube.y_size+cube.y, point[2]*cube.z_size+cube.z)
         new_cube.append(new_point)
+    print(new_cube)
     return(new_cube)
 
 def DebugPoint(point):
@@ -99,7 +101,25 @@ def Project(point):
     y = point[1]/point[2]
     return(x,y)
 
-def RotatePoint(point, angle):
+def worldToCameraPoint(point):
+    translated = point.subtract(self.position)
+
+    cosYaw = math.cos(rotationud)
+    sinYaw = math.sin(rotationud)
+
+    x1 = translated.x * cosYaw - translated.z * sinYaw
+    z1 = translated.x * sinYaw + translated.z * cosYaw
+
+    cosPitch = math.cos(rotationlr)
+    sinPitch = math.sin(rotationlr)
+
+    y2 = translated.y * cosPitch - z1 * sinPitch
+    z2 = translated.y * sinPitch + z1 * cosPitch
+
+    return((x1, y2, z2))
+
+
+def RotatePointLeftRight(point, angle):
     x = point[0]
     y = point[1]
     z = point[2]
@@ -110,11 +130,24 @@ def RotatePoint(point, angle):
     z2 = x*s+z*c
     return((x2,y2,z2))
 
+def RotatePointUpDown(point, angle):
+    x = point[0]
+    y = point[1]
+    z = point[2]
+    c = math.cos(angle)
+    s = math.sin(angle)
+    x2 = x
+    y2 = y*c-z*s
+    z2 = y*s+z*c
+    return((x2,y2,z2))
+
+
 def DrawLine(p1, p2, color):
     pygame.draw.line(DISPLAYSURF, color, p1, p2, 3)
 
 def RenderPoint(point):
-    point = RotatePoint(point, rotation)
+    point = RotatePointLeftRight(point, rotationlr)
+    point = RotatePointUpDown(point, rotationud)
     point = (point[0]+x, point[1]+y, point[2]+z)
     if(point[2] < 0):
         return(FixToScreen(*Project(point)))
@@ -136,11 +169,11 @@ def RenderCube(CubeLinks, CubeVertices, color):
             try:
                 p1 = CubeVertices[face[i]]
                 p2 = CubeVertices[face[(i+1)%len(face)]]
-                if(p1[2] > z and p2[2] > z):
-                    p1 = RenderPoint(p1)
-                    p2 = RenderPoint(p2)
+                #if(p1[2] > z and p2[2] > z):
+                p1 = RenderPoint(p1)
+                p2 = RenderPoint(p2)
                     #if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
-                    DrawLine(p1,p2, color)
+                DrawLine(p1,p2, color)
             except:
                 pass
     
@@ -152,13 +185,14 @@ pygame.display.set_caption("3D Test")
 fpsClock = pygame.time.Clock()
 
 x = 0
-y = -1
+y = 0
 z = -10
-rotation = 0
+rotationlr = 0
+rotationud = 0
 
 active_scene = []
 
-for x in range(0,100):
+for i in range(0,1000):
     active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
 
 while True: # Main game loop - like Unity's "update" void thing.
@@ -179,10 +213,17 @@ while True: # Main game loop - like Unity's "update" void thing.
         x -= 0.1
     if(pygame.key.get_pressed()[K_RIGHT] | pygame.key.get_pressed()[K_d]):
         x += 0.1
-    if(pygame.key.get_pressed()[K_COMMA]):
-        rotation -= 10/360
-    if(pygame.key.get_pressed()[K_PERIOD]):
-        rotation += 10/360
+    if(pygame.key.get_pressed()[K_j]):
+        rotationlr -= 10/360
+    if(pygame.key.get_pressed()[K_l]):
+        rotationlr += 10/360
+    if(pygame.key.get_pressed()[K_i]):
+        rotationud -= 10/360
+    if(pygame.key.get_pressed()[K_k]):
+        rotationud += 10/360
+    if(pygame.key.get_pressed()[K_r]):
+        rotationlr = 0
+        rotationud = 0
         
     for go in active_scene:
         if(go.point_data == None):
