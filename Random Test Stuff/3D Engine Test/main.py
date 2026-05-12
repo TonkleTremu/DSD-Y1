@@ -77,10 +77,8 @@ def CubeToPoints(cube: GameObject):
     ]
     new_cube = []
     for point in base_cube:
-        print(cube)
         new_point = (point[0]*cube.x_size+cube.x, point[1]*cube.y_size+cube.y, point[2]*cube.z_size+cube.z)
         new_cube.append(new_point)
-    print(new_cube)
     return(new_cube)
 
 def DebugPoint(point):
@@ -100,23 +98,6 @@ def Project(point):
     x = point[0]/point[2]
     y = point[1]/point[2]
     return(x,y)
-
-def worldToCameraPoint(point):
-    translated = point.subtract(self.position)
-
-    cosYaw = math.cos(rotationud)
-    sinYaw = math.sin(rotationud)
-
-    x1 = translated.x * cosYaw - translated.z * sinYaw
-    z1 = translated.x * sinYaw + translated.z * cosYaw
-
-    cosPitch = math.cos(rotationlr)
-    sinPitch = math.sin(rotationlr)
-
-    y2 = translated.y * cosPitch - z1 * sinPitch
-    z2 = translated.y * sinPitch + z1 * cosPitch
-
-    return((x1, y2, z2))
 
 
 def RotatePointLeftRight(point, angle):
@@ -146,9 +127,9 @@ def DrawLine(p1, p2, color):
     pygame.draw.line(DISPLAYSURF, color, p1, p2, 3)
 
 def RenderPoint(point):
+    point = (point[0]+x, point[1]+y, point[2]+z)
     point = RotatePointLeftRight(point, rotationlr)
     point = RotatePointUpDown(point, rotationud)
-    point = (point[0]+x, point[1]+y, point[2]+z)
     if(point[2] < 0):
         return(FixToScreen(*Project(point)))
 
@@ -176,7 +157,58 @@ def RenderCube(CubeLinks, CubeVertices, color):
                 DrawLine(p1,p2, color)
             except:
                 pass
+
+def MoveCam():
+    global x,z
+    speed = 0.1
+
+    forwardX = math.sin(rotationlr)
+    forwardZ = math.cos(rotationlr)
+
+    rightX = math.cos(rotationlr)
+    rightZ = -math.sin(rotationlr)
+
+    movementx = 0
+    movementz = 0
+
+    if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
+        movementx += forwardX
+        movementz += forwardZ
+    if(pygame.key.get_pressed()[K_DOWN] | pygame.key.get_pressed()[K_s]):
+        movementx -= forwardX
+        movementz -= forwardZ
+    if(pygame.key.get_pressed()[K_LEFT] | pygame.key.get_pressed()[K_a]):
+        movementx -= rightX
+        movementz -= rightZ
+    if(pygame.key.get_pressed()[K_RIGHT] | pygame.key.get_pressed()[K_d]):
+        movementx += rightX
+        movementz += rightZ
+    x += movementx * speed
+    z += movementz * speed
     
+def MoveAnt(antdir):
+    match antdir:
+        case 0:
+            langsant.x += 1
+        case 1:
+            langsant.z += 1
+        case 2:
+            langsant.x -= 1
+        case 3:
+            langsant.z -= 1
+    if(langsant.x <= 0 or langsant.x >= gridx):
+        langsant.x = 0
+    if(langsant.z <= 0 or langsant.z >= gridz):
+        langsant.z = 0
+    if(antdir < 0 or antdir > 3):
+        antdir = 0
+    square = grid[langsant.x][langsant.z]
+    if(square.color == PURE_WHITE):
+        square.color == PURE_BLACK
+        antdir -= 1
+    elif(square.color == PURE_BLACK):
+        square.color == PURE_WHITE
+        antdir += 1
 
 # Setup stuff.
 pygame.init()
@@ -192,8 +224,25 @@ rotationud = 0
 
 active_scene = []
 
-for i in range(0,1000):
-    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
+#for i in range(0,100):
+#    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
+
+grid = []
+
+gridx = 20
+gridz = 20
+
+for ix in range(0,gridx):
+    row = []
+    for iz in range(0,gridz):
+        cur_go = GameObject(1, 0, 1, ix, 0, iz, color=PURE_WHITE)
+        active_scene.append(cur_go)
+        row.append(cur_go)
+    grid.append(row)
+
+langsant = GameObject(1, 1, 1, 1, 0, 1, color=SUNSET)
+langsantdir = 0
+active_scene.append(langsant)
 
 while True: # Main game loop - like Unity's "update" void thing.
     #rotation += 2*math.pi*(1/TICK_RATE)
@@ -201,18 +250,12 @@ while True: # Main game loop - like Unity's "update" void thing.
     if(debug_mode):
         pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
         pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
-    if(pygame.key.get_pressed()[K_UP] | pygame.key.get_pressed()[K_w]):
-        z += 0.1
-    if(pygame.key.get_pressed()[K_DOWN] | pygame.key.get_pressed()[K_s]):
-        z -= 0.1
+    MoveCam()
+    langsantdir = MoveAnt(langsantdir)
     if(pygame.key.get_pressed()[K_SPACE]):
         y -= 0.1
     if(pygame.key.get_pressed()[K_LSHIFT]):
         y += 0.1
-    if(pygame.key.get_pressed()[K_LEFT] | pygame.key.get_pressed()[K_a]):
-        x -= 0.1
-    if(pygame.key.get_pressed()[K_RIGHT] | pygame.key.get_pressed()[K_d]):
-        x += 0.1
     if(pygame.key.get_pressed()[K_j]):
         rotationlr -= 10/360
     if(pygame.key.get_pressed()[K_l]):
