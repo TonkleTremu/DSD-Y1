@@ -20,6 +20,7 @@ SUNSET = (250, 100, 10)
 # Global Variables
 res_x = 500
 res_y = 500
+timelapse_mode = False
 
 @dataclass
 class GameObject:
@@ -104,6 +105,10 @@ def GenDecimalGrid(para1, para2):
         grid.append(row)
 
 def MoveAnt(antdir):
+    # If an ant goes out of bounds, this throws an error.
+    if(langsant.x < 0 or langsant.z < 0):
+        raise(IndexError)
+    
     if(antdir < 0):
         antdir = 3
     elif(antdir > 3):
@@ -174,11 +179,21 @@ para3 = int(code[5])
 para4 = int(code[6])
 prewarm = int(code[7])
 
+try:
+    timelapse_mode = bool(code[8])
+    print(bool(code[8]))
+except:
+    print("No 9th parameter input.")
+
 # Setup stuff.
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((res_x, res_y))
 pygame.display.set_caption("Langton's Ant")
 fpsClock = pygame.time.Clock()
+
+# Loads and sets fonts.
+pygame.font.init()
+my_font = pygame.font.SysFont("Agency FB", 30)
 
 grid = []
 grid_objects = []
@@ -203,6 +218,7 @@ match code[2]:
 langsant = GameObject(int(res_x/2), int(res_y/2), color=SUNSET)
 langsantdir = 0
 iterations = 0
+images_produced = 0
 reached_border = False
 grid_objects.append(langsant)
 
@@ -215,10 +231,20 @@ for x in range(prewarm):
         break
 
 while True: # Main game loop.
-    DISPLAYSURF.fill(NIGHT_SKY_BLUE)
-
-    for go in grid_objects:
-        RenderPoint(go.color, (go.x,go.z))
+    if(not(timelapse_mode)):
+        DISPLAYSURF.fill(NIGHT_SKY_BLUE)
+        for go in grid_objects:
+            RenderPoint(go.color, (go.x,go.z))
+        pygame.display.update()
+    if(timelapse_mode and iterations % 60 == 0):
+        for go in grid_objects:
+            RenderPoint(go.color, (go.x,go.z))
+        text_surface = my_font.render(f"Iterations: {iterations}", False, (0, 0, 0))
+        DISPLAYSURF.blit(text_surface, (0,0))
+        pygame.display.update()
+        pygame.image.save(DISPLAYSURF, f"tempvideofolder/image{images_produced}.jpg")
+        images_produced += 1
+        #print(f"Time is {datetime.datetime.now()}\nIterations: {iterations}")
 
     try:
         langsantdir = MoveAntWithSkips(langsantdir)
@@ -230,8 +256,6 @@ while True: # Main game loop.
             pygame.image.save(DISPLAYSURF, f"screenshots/screenshot {str(datetime.datetime.now()).replace(":", "")}.png")
             print(f"Time is {datetime.datetime.now()}\nIterations: {iterations}")
 
-
-    pygame.display.update()
     fpsClock.tick(TICK_RATE)
 
     for event in pygame.event.get():
@@ -245,4 +269,6 @@ while True: # Main game loop.
             if(event.key == pygame.K_F3):
                 print(iterations)
                 print(langsant)
+            if(event.key == pygame.K_m):
+                timelapse_mode = not timelapse_mode
                 

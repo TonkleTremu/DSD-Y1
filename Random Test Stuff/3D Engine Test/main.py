@@ -236,8 +236,8 @@ rotationud = 0
 
 active_scene = []
 
-#for i in range(0,100):
-#    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
+for i in range(0,100):
+    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
 
 grid = []
 grid_objects = []
@@ -249,9 +249,9 @@ for ix in range(0,gridx):
     row = []
     for iz in range(0,gridz):
         cur_go = GameObject(1, 0, 1, ix, 0, iz, color=PURE_WHITE)
-        grid_objects.append(cur_go)
+        #grid_objects.append(cur_go)
         row.append(cur_go)
-    grid.append(row)
+    #grid.append(row)
 
 langsant = GameObject(1, 1, 1, 50, 0, 50, color=SUNSET)
 langsantdir = 0
@@ -265,7 +265,8 @@ while True: # Main game loop - like Unity's "update" void thing.
         pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
     MoveCam()
     try:
-        langsantdir = MoveAnt(langsantdir)
+        #langsantdir = MoveAnt(langsantdir)
+        print()
     except:
         print("The Ant has broke containment.")
     if(pygame.key.get_pressed()[K_SPACE]):
