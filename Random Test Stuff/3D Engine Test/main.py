@@ -143,20 +143,23 @@ def DrawFace(face):
         if(debug_mode):
             print("Error rendering model data.")
 
-def RenderCube(CubeLinks, CubeVertices, color):
-    for face in CubeLinks:
-        maxthing = len(face)
-        for i in range(0, maxthing):
-            try:
-                p1 = CubeVertices[face[i]]
-                p2 = CubeVertices[face[(i+1)%len(face)]]
-                #if(p1[2] > z and p2[2] > z):
-                p1 = RenderPoint(p1)
-                p2 = RenderPoint(p2)
-                    #if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
-                DrawLine(p1,p2, color)
-            except:
-                pass
+def RenderCube(CubeLinks, CubeVertices, color, point=(0,0), dot=False):
+    if(dot):
+        pygame.draw.circle(DISPLAYSURF, color, point, 1)
+    else:
+        for face in CubeLinks:
+            maxthing = len(face)
+            for i in range(0, maxthing):
+                try:
+                    p1 = CubeVertices[face[i]]
+                    p2 = CubeVertices[face[(i+1)%len(face)]]
+                    #if(p1[2] > z and p2[2] > z):
+                    p1 = RenderPoint(p1)
+                    p2 = RenderPoint(p2)
+                        #if(p1[0] > nearclip and p1[1] > nearclip and p2[0] > nearclip and p2[1] > nearclip):
+                    DrawLine(p1,p2, color)
+                except:
+                    pass
 
 def MoveCam():
     global x,z
@@ -187,28 +190,37 @@ def MoveCam():
     z += movementz * speed
     
 def MoveAnt(antdir):
+    langsant.point_data = CubeToPoints(langsant)
+    if(antdir < 0):
+        antdir = 3
+    elif(antdir > 3):
+        antdir = 0
     match antdir:
         case 0:
-            langsant.x += 1
-        case 1:
-            langsant.z += 1
-        case 2:
             langsant.x -= 1
-        case 3:
+        case 1:
             langsant.z -= 1
-    if(langsant.x <= 0 or langsant.x >= gridx):
+        case 2:
+            langsant.x += 1
+        case 3:
+            langsant.z += 1
+    if(langsant.x < 0):
         langsant.x = 0
-    if(langsant.z <= 0 or langsant.z >= gridz):
+    elif(langsant.x > gridx):
+        langsant.x = gridx
+    if(langsant.z < 0):
         langsant.z = 0
-    if(antdir < 0 or antdir > 3):
-        antdir = 0
+    elif(langsant.z > gridz):
+        langsant.z = gridz
+
     square = grid[langsant.x][langsant.z]
     if(square.color == PURE_WHITE):
-        square.color == PURE_BLACK
+        square.color = PURE_BLACK
         antdir -= 1
     elif(square.color == PURE_BLACK):
-        square.color == PURE_WHITE
+        square.color = PURE_WHITE
         antdir += 1
+    return(antdir)
 
 # Setup stuff.
 pygame.init()
@@ -224,23 +236,24 @@ rotationud = 0
 
 active_scene = []
 
-#for i in range(0,100):
-#    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
+for i in range(0,100):
+    active_scene.append(GameObject(random.randrange(0,5),random.randrange(0,5),random.randrange(0,5),random.randint(-10,10),random.randint(-10,10),random.randint(-10,10), color=(random.randrange(0,255),random.randrange(0,255),random.randrange(0,255))))
 
 grid = []
+grid_objects = []
 
-gridx = 20
-gridz = 20
+gridx = 400
+gridz = 300
 
 for ix in range(0,gridx):
     row = []
     for iz in range(0,gridz):
         cur_go = GameObject(1, 0, 1, ix, 0, iz, color=PURE_WHITE)
-        active_scene.append(cur_go)
+        #grid_objects.append(cur_go)
         row.append(cur_go)
-    grid.append(row)
+    #grid.append(row)
 
-langsant = GameObject(1, 1, 1, 1, 0, 1, color=SUNSET)
+langsant = GameObject(1, 1, 1, 50, 0, 50, color=SUNSET)
 langsantdir = 0
 active_scene.append(langsant)
 
@@ -251,7 +264,11 @@ while True: # Main game loop - like Unity's "update" void thing.
         pygame.draw.line(DISPLAYSURF, RED, (DISPLAYSURF.get_width()/2, 0), (DISPLAYSURF.get_width()/2, DISPLAYSURF.get_height()), 3)
         pygame.draw.line(DISPLAYSURF, RED, (0, DISPLAYSURF.get_height()/2), (DISPLAYSURF.get_width(), DISPLAYSURF.get_height()/2), 3)
     MoveCam()
-    langsantdir = MoveAnt(langsantdir)
+    try:
+        #langsantdir = MoveAnt(langsantdir)
+        print()
+    except:
+        print("The Ant has broke containment.")
     if(pygame.key.get_pressed()[K_SPACE]):
         y -= 0.1
     if(pygame.key.get_pressed()[K_LSHIFT]):
@@ -272,6 +289,9 @@ while True: # Main game loop - like Unity's "update" void thing.
         if(go.point_data == None):
             go.point_data = CubeToPoints(go)
         RenderCube(CubeLinks, go.point_data, go.color)
+
+    for go in grid_objects:
+        RenderCube(CubeLinks, go.point_data, go.color, point=(go.x,go.z), dot=True)
 
     pygame.display.update()
     fpsClock.tick(TICK_RATE)
