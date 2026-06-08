@@ -1,7 +1,4 @@
-from inputimeout import inputimeout, TimeoutOccurred
-
-while(True):
-    try:
-        x = inputimeout(prompt='>>', timeout=5)
-    except:
-        print("time")
+import hashlib
+userinput = input("gib")
+password = hashlib.sha256(f"{bytes(userinput)}")
+print(password.hexdigest())
