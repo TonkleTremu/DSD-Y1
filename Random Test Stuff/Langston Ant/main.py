@@ -18,8 +18,8 @@ GRAY = (124,125,127)
 SUNSET = (250, 100, 10)
 
 # Global Variables
-res_x = 500
-res_y = 500
+res_x = 250
+res_y = 250
 timelapse_mode = False
 
 @dataclass
@@ -224,7 +224,7 @@ grid_objects.append(langsant)
 
 for x in range(prewarm):
     try:
-        langsantdir = MoveAntWithSkips(langsantdir)
+        langsantdir = MoveAnt(langsantdir)
         iterations += 1
     except:
         print("The Ant has broke containment.")
@@ -247,7 +247,7 @@ while True: # Main game loop.
         #print(f"Time is {datetime.datetime.now()}\nIterations: {iterations}")
 
     try:
-        langsantdir = MoveAntWithSkips(langsantdir)
+        langsantdir = MoveAnt(langsantdir)
         iterations += 1
     except:
         if(reached_border == False):

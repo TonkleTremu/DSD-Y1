@@ -9,6 +9,7 @@ from typing import Optional
 PURE_WHITE = (255,255,255)
 PURE_BLACK = (0,0,0)
 
+
 # Global Variables
 res_x = 500
 res_y = res_x
@@ -19,13 +20,12 @@ def CheckMandelbrot(point: tuple):
     cy = point[1]
     x = cx
     y = cy
-    for i in range(17):
+    for i in range(50):
         x = (x*x) - (y*y) + cx
         y = (2*x*y) + (cy)
-    if(-1000 < x < 1000 and -1000 < y < 1000):
-        return(PURE_BLACK)
-    else:
-        return(PURE_WHITE)
+        if(not(-1000 < x < 1000 and -1000 < y < 1000)):
+            return(PURE_WHITE)
+    return(PURE_BLACK)
 
 
 def GenMandelbrot(zoom: float):
@@ -49,7 +49,7 @@ gridx = DISPLAYSURF.get_width()
 gridz = DISPLAYSURF.get_height()
 
 zoom = 0.125
-true_zoomx = res_x*2
+true_zoomx = res_x*-0.25
 true_zoomz = 0
 zoomx = 0
 zoomz = 0
